@@ -11,6 +11,7 @@ namespace BackgammonKonsol
 		static void Main(string[] args)
 		{
 			//hey
+            //hej
 		}
 	}
 }
