@@ -10,7 +10,14 @@ namespace BackgammonKonsol
 	{
 		static void Main(string[] args)
 		{
-			
+	
+			dices test = new dices();
+			String a = "";
+			while(a == "") 
+				{
+				Console.WriteLine(test.letsRollTheDice());
+				a = Console.ReadLine();
+				}
 		}
 	}
 }
