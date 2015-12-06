@@ -9,18 +9,19 @@ namespace BackgammonKonsol
 	class dices
 	{
 		private Random rnd = new Random();
-		private int dice1,dice2,dice3,dice4 = 0;
+		private int [] dice = new int[4];
 	
-		public String letsRollTheDice()
+		public int[] letsRollTheDice()
 		{
-			dice3=dice4=0;
-			dice1 = rnd.Next(1, 7);
-			dice2 = rnd.Next(1, 7);
-			if(dice1==dice2) dice4=dice3=dice2;
+			dice[2]=dice[3]=0;
+			dice[0] = rnd.Next(1, 7);
+			dice[1] = rnd.Next(1, 7);
+			if(dice[0]==dice[1]) dice[3]=dice[2]=dice[1];
 
-			return (dice1+" "+dice2 +" "+dice3+" "+dice4);
+			return dice;
 		}
 			
+
 
 	}
 }

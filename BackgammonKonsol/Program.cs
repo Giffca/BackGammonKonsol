@@ -15,7 +15,12 @@ namespace BackgammonKonsol
 			String a = "";
 			while(a == "") 
 				{
-				Console.WriteLine(test.letsRollTheDice());
+				int [] tarn = test.letsRollTheDice();
+				foreach(int j in tarn)
+				{
+					Console.Write(j + " ");
+				}
+				Console.WriteLine();
 				a = Console.ReadLine();
 				}
 		}
