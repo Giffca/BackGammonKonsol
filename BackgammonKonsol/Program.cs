@@ -11,7 +11,7 @@ namespace BackgammonKonsol
 		static void Main(string[] args)
 		{
 	
-			dices test = new dices();
+			dice test = new dice();
 			String a = "";
 			while(a == "") 
 				{

@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace BackgammonKonsol
 {
-	class dices
+	class dice
 	{
 		private Random rnd = new Random();
 		private int [] dice = new int[4];

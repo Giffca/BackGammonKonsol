@@ -42,7 +42,10 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="dices.cs" />
+    <Compile Include="BackGammonConsoleView.cs" />
+    <Compile Include="BackGammonController.cs" />
+    <Compile Include="BackGammonModel.cs" />
+    <Compile Include="dice.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
