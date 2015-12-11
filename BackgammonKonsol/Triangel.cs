@@ -6,16 +6,15 @@ using System.Threading.Tasks;
 
 namespace BackgammonKonsol
 {
-	class Triangel
-	{
-
-		enum Colors : byte
+	enum Colors : byte
 		{
 			Black,
 			White
 		};
 
-		private int antal;
-		private Colors color;
+	struct Triangel
+	{
+		public int antal;
+		public Colors color;
 	}
 }
