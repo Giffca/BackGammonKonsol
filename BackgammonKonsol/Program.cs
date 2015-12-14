@@ -10,25 +10,10 @@ namespace BackgammonKonsol
 	{
 		static void Main(string[] args)
 		{
-			BackGammonConsoleView view = new BackGammonConsoleView();
-			Triangel [] spelplan = new Triangel[26];
-			spelplan[0].antal = 2;
-			spelplan[0].color = Colors.White;
-			spelplan[5].antal = 5;
-			spelplan[5].color = Colors.Black;
-			spelplan[8].antal = 3;
-			spelplan[8].color = Colors.Black;
-			spelplan[12].antal = 5;
-			spelplan[12].color = Colors.White;
-			spelplan[13].antal = 5;
-			spelplan[13].color = Colors.Black;
-			spelplan[17].antal = 3;
-			spelplan[17].color = Colors.White;
-			spelplan[20].antal = 5;
-			spelplan[20].color = Colors.White;
-			spelplan[25].antal = 2;
-			spelplan[25].color = Colors.Black;
-			view.drawBoard(spelplan);
+			BackGammonController c = new BackGammonController();
+			c.PlayGame();
+
+
 			Triangel [] test1 = new Triangel [3];
 			test1[0].antal = 3;
 			test1[0].color = Colors.Black;

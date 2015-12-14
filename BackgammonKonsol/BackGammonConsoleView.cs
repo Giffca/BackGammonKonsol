@@ -8,93 +8,91 @@ namespace BackgammonKonsol
 {
 	class BackGammonConsoleView
 	{
-		public void drawBoard(Triangel [] spelplan)
+		public void drawBoard(Triangel[] spelplan)
 		{
-			if (spelplan.Length!= 26) return;
+			if (spelplan.Length != 26) return;
 			Console.Clear();
 			Console.WriteLine("__________________________________________________________");
 			Console.WriteLine("|\t\t\t |\t|\t\t\t |");
-			Console.WriteLine("|13  14  15  16  17  18  |\t| 19  20  21  22  23  24 |");
-			for (int i = 0; i<11;i++)
-			{ 
+			Console.WriteLine("| 13  14  15  16  17  18 |\t|  19  20  21  22  23  24|");
+			for (int i = 0; i < 11; i++)
+			{
 				Console.Write("|");
 
-				if(i < 5)
-				{
-				
-				for(int j = 13; j < 26; j++)
-				{ 
-					
-					if (j == 19) 
-					{
-						Console.Write("|\t| ");
-					}
-					else if (j == 25)
-					{
-						if(spelplan[j].antal > i)
-						{
-							if (spelplan[j].color == Colors.Black) Console.Write(" @ |");
-							else Console.Write("  O |");
-						}
-						else Console.Write("   |");
-					}
-					else
-					{
-						if(spelplan[j].antal > i)
-						{
-							if (spelplan[j].color == Colors.Black) Console.Write(" @  ");
-							else Console.Write(" O  ");
-						}
-						else Console.Write("    ");
-					}
-
-					
-				}
-
-				}
-
-				if(i > 4 && i < 11)
+				if (i < 5)
 				{
 
-					for(int j = 0; j < 13; j++)
-				{ 
-					
-					int l = 12-j;
-					if (j == 6) 
-					{
-						Console.Write("|\t| ");
-					}
-					else if (j == 12)
+					for (int j = 13; j < 26; j++)
 					{
 
-						if(spelplan[l].antal > 10-i)
+						if (j == 19)
 						{
-							if (spelplan[l].color == Colors.Black) Console.Write(" @ |");
-							else Console.Write(" O |");
+							Console.Write("|\t| ");
 						}
-						else Console.Write("   |");
-					}
-					else
-					{
-						if(spelplan[l].antal > 10-i)
+						else if (j == 25)
 						{
-							if (spelplan[l].color == Colors.Black) Console.Write(" @  ");
-							else Console.Write(" O  ");
+							if (spelplan[j].antal > i)
+							{
+								if (spelplan[j].color == Colors.Black) Console.Write(" @ |");
+								else Console.Write("  O |");
+							}
+							else Console.Write("   |");
 						}
-						else Console.Write("    ");
+						else
+						{
+							if (spelplan[j].antal > i)
+							{
+								if (spelplan[j].color == Colors.Black) Console.Write(" @  ");
+								else Console.Write(" O  ");
+							}
+							else Console.Write("    ");
+						}
+
+
 					}
 
-					
 				}
 
+				if (i > 4 && i < 11)
+				{
 
-				//Console.Write("\t\t\t|\t|\t\t\t|");
+					for (int j = 0; j < 13; j++)
+					{
+
+						int l = 12 - j;
+						if (j == 6)
+						{
+							Console.Write("|\t| ");
+						}
+						else if (j == 12)
+						{
+
+							if (spelplan[l].antal > 10 - i)
+							{
+								if (spelplan[l].color == Colors.Black) Console.Write(" @ |");
+								else Console.Write(" O |");
+							}
+							else Console.Write("   |");
+						}
+						else
+						{
+							if (spelplan[l].antal > 10 - i)
+							{
+								if (spelplan[l].color == Colors.Black) Console.Write(" @  ");
+								else Console.Write(" O  ");
+							}
+							else Console.Write("    ");
+						}
+
+
+					}
+
+
 				}
 				Console.WriteLine("");
-				//Console.WriteLine("|\t\t\t|\t|\t\t\t|");
 
 			}
-			Console.WriteLine("|12  11  10   9   8   7  |\t|  6   5   4   3   2   1 |");
+			Console.WriteLine("| 12  11  10  9   8   7  |\t|  6   5   4   3   2   1 |");
 			Console.WriteLine("|________________________________________________________|");
 		}
 	}
