@@ -25,6 +25,8 @@ namespace BackgammonKonsol
 	{
 		private Random rnd = new Random();
 
+
+		// kanske ändra return typ till arraylist eller alltid [4].
 		public int[] letsRollTheDice()
 		{
 			int[] dices = new int[4];
@@ -38,8 +40,17 @@ namespace BackgammonKonsol
 		}
 
 
+		// Ska räkna alla brickor på spelplanen.
+		public int[] checkersInGame(Triangel[] spelplan)
+		{
+			return (new int[2] {0,0});
+		}
 
-
+		//Ska kolla om man kan flytta brickan. tärningen ska även in här.
+		public bool canMove(Triangel[] spelplan, int first, int second)
+		{
+			return true;
+		}
 
 
 		public static bool SelfTest()

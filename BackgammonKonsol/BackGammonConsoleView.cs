@@ -8,6 +8,9 @@ namespace BackgammonKonsol
 {
 	class BackGammonConsoleView
 	{
+
+
+		// Ska även fixa så att utslagna brickor ritas ut.
 		public void drawBoard(Triangel[] spelplan)
 		{
 			if (spelplan.Length != 26) return;
