@@ -46,12 +46,32 @@ namespace BackgammonKonsol
 			return (new int[2] {0,0});
 		}
 
+		//räknar ut hur många moves som är tillgänga för en viss spelare.
+		public int availableMoves(Colors spelare, int[] moves)
+		{
+			return -1;
+		}
+
 		//Ska kolla om man kan flytta brickan. tärningen ska även in här.
 		public bool canMove(Triangel[] spelplan, int first, int second)
 		{
 			return true;
 		}
 
+		//flyttar en bricka, tänker mig att man slänger in canMove funktion i boolen här.
+		public void move(bool ok, Triangel[] spelplan, int first, int second)
+		{
+
+		}
+
+
+		//rättar vald plats till elementets plats i arrayen.
+		public int correctPos(int spelplanPos)
+		{
+			if (spelplanPos > 0 && spelplanPos <= 6) return spelplanPos-1;
+			if (spelplanPos > 6 && spelplanPos <= 18) return spelplanPos;
+			else return spelplanPos+1;
+		}
 
 		public static bool SelfTest()
 		{
@@ -60,6 +80,7 @@ namespace BackgammonKonsol
 
 
 			// Test för Triangel Struct
+			//
 			Triangel [] test1 = new Triangel [4];
 			test1[0].antal = 3;
 			test1[0].color = Colors.Black;
@@ -77,16 +98,25 @@ namespace BackgammonKonsol
 			System.Diagnostics.Debug.WriteLine("Triangel " + ok);
 
 			// Test för LetsRollTheDice()
-
+			//
 			for (int i = 0; i < 100 && ok; i++)
 			{
 				int[] dices = test.letsRollTheDice();
 				ok = ok && dices[0] >= 1 && dices[0] <= 6 && dices[1] >= 1 && dices[1] <= 6;
 				if (dices[0] == dices[1]) if (dices.Length != 4) ok = false;
 			}
-
-
 			System.Diagnostics.Debug.WriteLine("LetsRollTheDice " + ok);
+
+
+			// Test för correctPos()
+			ok = ok && test.correctPos(1) == 0;
+			ok = ok && test.correctPos(6) == 5;
+			ok = ok && test.correctPos(7) == 7;
+			ok = ok && test.correctPos(18) == 18;
+			ok = ok && test.correctPos(19) == 20;
+			ok = ok && test.correctPos(24) == 25;
+
+			System.Diagnostics.Debug.WriteLine("correctPos " + ok);
 			return ok;
 		}
 
