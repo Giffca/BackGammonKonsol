@@ -52,21 +52,29 @@ namespace BackgammonKonsol
 			return -1;
 		}
 
-		//Ska kolla om man kan flytta brickan. tärningen ska även in här.
-		public bool canMove(Triangel[] spelplan, int first, int second)
+
+		//flyttar en bricka.
+		public bool move(Triangel[] spelplan, ref int first, ref int second)
 		{
+			if(canMove(spelplan,ref first,ref second))
+			{
+
+			}
+
+			return false;
+		}
+
+
+		//privat funktion som kollar om man kan flytta brickan. tärningen ska även in här.
+		private bool canMove(Triangel[] spelplan, ref int first, ref int second)
+		{
+
+			//correctPos() ska användas här inne, för att ändra till rätt element plats.
 			return true;
 		}
 
-		//flyttar en bricka, tänker mig att man slänger in canMove funktion i boolen här.
-		public void move(bool ok, Triangel[] spelplan, int first, int second)
-		{
-
-		}
-
-
-		//rättar vald plats till elementets plats i arrayen.
-		public int correctPos(int spelplanPos)
+		//privat funktion som rättar vald plats till elementets plats i arrayen.
+		private int correctPos(int spelplanPos)
 		{
 			if (spelplanPos > 0 && spelplanPos <= 6) return spelplanPos-1;
 			if (spelplanPos > 6 && spelplanPos <= 18) return spelplanPos;
