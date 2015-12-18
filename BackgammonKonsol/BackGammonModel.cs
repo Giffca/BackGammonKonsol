@@ -40,38 +40,88 @@ namespace BackgammonKonsol
 		}
 
 
-		// Ska räkna alla brickor på spelplanen.
+		// Räknar alla brickor på spelplanen, syftet är att avgöra när någon vunnit.
 		public int[] checkersInGame(Triangel[] spelplan)
 		{
-			return (new int[2] {0,0});
+			int[] brickor = {0,0};
+			for(int i = 0;i<26;i++)
+			{
+				if (spelplan[i].color == Colors.Black) brickor[0] += spelplan[i].antal;
+				else brickor[1] += spelplan[i].antal;
+			}
+
+			return brickor;
 		}
 
-		//räknar ut hur många moves som är tillgänga för en viss spelare.
-		public int availableMoves(Colors spelare, int[] moves)
+		//kollar om en spelare kan göra något move.
+		public bool canMove(Colors spelare, int[] dices)
 		{
-			return -1;
+			return false;
 		}
 
 
 		//flyttar en bricka.
-		public bool move(Triangel[] spelplan, ref int first, ref int second)
+		public bool move(Triangel[] spelplan, ref int first, ref int second, int[] dices,Colors spelare)
 		{
-			if(canMove(spelplan,ref first,ref second))
+			if(legitMove(spelplan,ref first,ref second, dices, spelare))
 			{
+				
+				spelplan[first].antal--;
+				if(spelplan[second].antal == 1 && spelplan[second].color != spelare)
+				{
+					if(spelplan[second].color == Colors.White) spelplan[6].antal++;
+					else spelplan[19].antal++;
 
+					spelplan[second].color= spelare;
+					return true;
+				}
+
+				spelplan[second].color = spelare;
+				spelplan[second].antal++;
+				return true;
 			}
 
 			return false;
 		}
 
 
-		//privat funktion som kollar om man kan flytta brickan. tärningen ska även in här.
-		private bool canMove(Triangel[] spelplan, ref int first, ref int second)
+		//privat funktion som kollar om man kan flytta brickan.
+		private bool legitMove(Triangel[] spelplan, ref int first, ref int second, int[] dices, Colors spelare)
 		{
+			int langd;
+			int indextarning = -1;
 
-			//correctPos() ska användas här inne, för att ändra till rätt element plats.
-			return true;
+			if(spelare==Colors.Black) 
+			{
+				if(second >= first) return false;
+				langd = first-second;
+			}
+			else 
+			{
+				if(first >= second) return false;
+				langd = second-first;
+			}
+
+
+
+				for(int i=0;i<dices.Length;i++) if (dices[i]==langd) indextarning = i;
+				if(indextarning == -1) return false;
+
+				first = correctPos(first);
+				second = correctPos(second);
+
+				if (spelplan[first].color != spelare || spelplan[first].antal == 0) return false;
+				if(spelplan[second].color != spelare || spelplan[second].antal <= 1) 
+				{
+					dices[indextarning] = 0;
+					return true;
+				}
+
+			return false;
+
 		}
+
+
 
 		//privat funktion som rättar vald plats till elementets plats i arrayen.
 		private int correctPos(int spelplanPos)
@@ -80,6 +130,8 @@ namespace BackgammonKonsol
 			if (spelplanPos > 6 && spelplanPos <= 18) return spelplanPos;
 			else return spelplanPos+1;
 		}
+
+
 
 		public static bool SelfTest()
 		{

@@ -10,17 +10,23 @@ namespace BackgammonKonsol
 	{
 
 
-		// Ska även fixa så att utslagna brickor ritas ut.
+		// klar.
 		public void drawBoard(Triangel[] spelplan)
 		{
 			if (spelplan.Length != 26) return;
 			Console.Clear();
-			Console.WriteLine("__________________________________________________________");
-			Console.WriteLine("|\t\t\t |\t|\t\t\t |");
-			Console.WriteLine("| 13  14  15  16  17  18 |\t|  19  20  21  22  23  24|");
+			Console.WriteLine("_________________________________________________________");
+			Console.WriteLine("|\t\t\t |     |\t\t\t |");
+			Console.WriteLine("| 13  14  15  16  17  18 |     |  19  20  21  22  23  24 |");
 			for (int i = 0; i < 11; i++)
 			{
-				Console.Write("|");
+				if(i != 5) Console.Write("|");
+				else 
+				{
+					Console.WriteLine("|\t\t\t |     |\t\t\t |");
+					Console.Write("|");
+				}
+				
 
 				if (i < 5)
 				{
@@ -30,16 +36,23 @@ namespace BackgammonKonsol
 
 						if (j == 19)
 						{
-							Console.Write("|\t| ");
+							
+							if (spelplan[j].antal > i)
+							{
+								Console.Write("|  @  | ");
+							}
+							else Console.Write("|     | ");
+
+
 						}
 						else if (j == 25)
 						{
 							if (spelplan[j].antal > i)
 							{
-								if (spelplan[j].color == Colors.Black) Console.Write(" @ |");
-								else Console.Write("  O |");
+								if (spelplan[j].color == Colors.Black) Console.Write(" @  |");
+								else Console.Write("  O  |");
 							}
-							else Console.Write("   |");
+							else Console.Write("    |");
 						}
 						else
 						{
@@ -55,6 +68,7 @@ namespace BackgammonKonsol
 					}
 
 				}
+				
 
 				if (i > 4 && i < 11)
 				{
@@ -65,17 +79,23 @@ namespace BackgammonKonsol
 						int l = 12 - j;
 						if (j == 6)
 						{
-							Console.Write("|\t| ");
+							if (spelplan[l].antal > 10 - i)
+							{
+								Console.Write("|  O  | ");
+							}
+							else Console.Write("|     | ");
+
+							
 						}
 						else if (j == 12)
 						{
 
 							if (spelplan[l].antal > 10 - i)
 							{
-								if (spelplan[l].color == Colors.Black) Console.Write(" @ |");
-								else Console.Write(" O |");
+								if (spelplan[l].color == Colors.Black) Console.Write(" @  |");
+								else Console.Write(" O  |");
 							}
-							else Console.Write("   |");
+							else Console.Write("    |");
 						}
 						else
 						{
@@ -92,10 +112,10 @@ namespace BackgammonKonsol
 
 
 				}
-				Console.WriteLine("");
+				Console.WriteLine();
 
 			}
-			Console.WriteLine("| 12  11  10  9   8   7  |\t|  6   5   4   3   2   1 |");
+			Console.WriteLine("| 12  11  10  9   8   7  |     |  6   5   4   3   2   1  |");
 			Console.WriteLine("|________________________________________________________|");
 		}
 	}

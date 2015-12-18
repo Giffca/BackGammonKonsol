@@ -22,6 +22,7 @@ namespace BackgammonKonsol
 			spelplan[0].color = Colors.White;
 			spelplan[5].antal = 5;
 			spelplan[5].color = Colors.Black;
+	
 			spelplan[8].antal = 3;
 			spelplan[8].color = Colors.Black;
 			spelplan[12].antal = 5;
@@ -30,6 +31,7 @@ namespace BackgammonKonsol
 			spelplan[13].color = Colors.Black;
 			spelplan[17].antal = 3;
 			spelplan[17].color = Colors.White;
+
 			spelplan[20].antal = 5;
 			spelplan[20].color = Colors.White;
 			spelplan[25].antal = 2;
