@@ -10,7 +10,8 @@ namespace BackgammonKonsol
 	{
 
 
-		// klar.
+		// Skriver ut spelplanen
+		// 99%  inte så viktigt, ska ändå inte exporteras.
 		public void drawBoard(Triangel[] spelplan)
 		{
 			if (spelplan.Length != 26) return;

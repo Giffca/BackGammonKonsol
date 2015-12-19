@@ -9,24 +9,25 @@ namespace BackgammonKonsol
 
 	enum Colors
 	{
-		Black,
-		White 
+		White,
+		Black 
 	};
 
-
-	struct Triangel  // datatyp för plats där brickor kan ligga.
+	struct Triangel  
 	{
 		public int antal;
 		public Colors color;
 	}
 
 
+	//Kommer definitivt behövas mer funktioner som sedan används i den grafiska miljön.
 	class BackGammonModel
 	{
 		private Random rnd = new Random();
 
 
 		// kanske ändra return typ till arraylist eller alltid [4].
+		// 99%
 		public int[] letsRollTheDice()
 		{
 			int[] dices = new int[4];
@@ -40,7 +41,8 @@ namespace BackgammonKonsol
 		}
 
 
-		// Räknar alla brickor på spelplanen, syftet är att avgöra när någon vunnit.
+		// kollar om någon vunnit genom att se om något element är lika med 0, controllern kollar detta.
+		// 99%
 		public int[] checkersInGame(Triangel[] spelplan)
 		{
 			int[] brickor = {0,0};
@@ -48,12 +50,16 @@ namespace BackgammonKonsol
 			{
 				if (spelplan[i].color == Colors.Black) brickor[0] += spelplan[i].antal;
 				else brickor[1] += spelplan[i].antal;
+
+				if(brickor[0]>0 && brickor[1]>0) return brickor;
 			}
 
 			return brickor;
 		}
 
-		//kollar om en spelare kan göra något move.
+		//kollar om en spelare kan göra något move.  loopa genom spelplan, ifall triangel color == spelare så kolla om den kan göra något move därifrån, om det går så return true;
+		// men den ska kolla utslagna först och om en utslagen kan spelas ut så måste man flytta den, tror jag.  så kanske ändra return typ på denna.
+		// 0%
 		public bool canMove(Colors spelare, int[] dices)
 		{
 			return false;
@@ -61,6 +67,7 @@ namespace BackgammonKonsol
 
 
 		//flyttar en bricka.
+		// 75%  gå i mål och gå från bar saknas.
 		public bool move(Triangel[] spelplan, ref int first, ref int second, int[] dices,Colors spelare)
 		{
 			if(legitMove(spelplan,ref first,ref second, dices, spelare))
@@ -86,6 +93,7 @@ namespace BackgammonKonsol
 
 
 		//privat funktion som kollar om man kan flytta brickan.
+		// 75%  gå i mål och gå från bar saknas.
 		private bool legitMove(Triangel[] spelplan, ref int first, ref int second, int[] dices, Colors spelare)
 		{
 			int langd;
@@ -111,11 +119,14 @@ namespace BackgammonKonsol
 				second = correctPos(second);
 
 				if (spelplan[first].color != spelare || spelplan[first].antal == 0) return false;
-				if(spelplan[second].color != spelare || spelplan[second].antal <= 1) 
+				if (spelplan[second].antal <= 1 || spelplan[second].color == spelare) 
 				{
 					dices[indextarning] = 0;
 					return true;
 				}
+				
+
+
 
 			return false;
 
@@ -124,6 +135,7 @@ namespace BackgammonKonsol
 
 
 		//privat funktion som rättar vald plats till elementets plats i arrayen.
+		// 75% gå i mål och från bar saknas.
 		private int correctPos(int spelplanPos)
 		{
 			if (spelplanPos > 0 && spelplanPos <= 6) return spelplanPos-1;
@@ -132,7 +144,7 @@ namespace BackgammonKonsol
 		}
 
 
-
+		//vet inte hur mycket Ragnar vill ha selftests, men många saker behöver testas iaf.
 		public static bool SelfTest()
 		{
 			bool ok = true;
@@ -149,11 +161,11 @@ namespace BackgammonKonsol
 
 			ok = ok && test1[0].antal == 3 && test1[0].color == Colors.Black;
 			ok = ok && test1[1].antal == 1 && test1[1].color == Colors.White;
-			ok = ok && test1[2].antal == 0 && test1[2].color == Colors.Black;
-			ok = ok && test1[3].antal == 0 && test1[3].color == Colors.Black;
+			ok = ok && test1[2].antal == 0 && test1[2].color == Colors.White;
+			ok = ok && test1[3].antal == 0 && test1[3].color == Colors.White;
 
-			ok = ok && (int)Colors.Black == 0;
-			ok = ok && (int)Colors.White == 1;
+			ok = ok && (int)Colors.Black == 1;
+			ok = ok && (int)Colors.White == 0;
 
 			System.Diagnostics.Debug.WriteLine("Triangel " + ok);
 
