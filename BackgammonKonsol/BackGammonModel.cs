@@ -54,11 +54,39 @@ namespace BackgammonKonsol
 			return brickor;
 		}
 
-		//kollar om en spelare kan göra något move.  loopa genom spelplan, ifall triangel color == spelare så kolla om den kan göra något move därifrån, om det går så return true;
-		// men den ska kolla utslagna först och om en utslagen kan spelas ut så måste man flytta den, tror jag.  så kanske ändra return typ på denna.
-		// 0%
-		public bool canMove(Colors spelare, int[] dices)
+
+		// Kanske ska kolla utslagna först och om en utslagen kan spelas ut så måste man flytta den, tror jag.  så kanske ändra return typ på denna.
+		// 20%
+		public bool canMove(Triangel[] spelplan, Colors spelare, int[] dices)
 		{
+			if (spelare == Colors.White)
+				{
+					for (int i = 1; i < 24; i++)
+					{
+						int pos = correctPos(i);
+						if(spelplan[pos].color == spelare && spelplan[pos].antal > 0)
+						{
+							foreach (int n in dices) 
+							{
+								if(i+n <= 24)
+									{ 
+									if(legitMove(spelplan,pos,pos+n,dices,spelare) != -1) return true;
+									}
+							}
+						}
+					}
+				}
+			//else
+			//	{
+			//		for (int i = 25; i > 0; i--)
+			//		{	
+			//			int pos = correctPos(i);
+			//			if(spelplan[pos].color == spelare && spelplan[pos].antal > 0)
+			//			{
+							
+			//			}
+			//		}
+			//	}
 			return false;
 		}
 
@@ -67,9 +95,13 @@ namespace BackgammonKonsol
 		// 75%  gå i mål och gå från bar saknas.
 		public bool move(Triangel[] spelplan, ref int first, ref int second, int[] dices,Colors spelare)
 		{
-			if(legitMove(spelplan,ref first,ref second, dices, spelare))
+			int index = legitMove(spelplan,first,second, dices, spelare);
+			if(index != -1)
 			{
-				
+				first = correctPos(first);
+				second = correctPos(second);
+				dices[index] = 0;
+
 				spelplan[first].antal--;
 				if(spelplan[second].antal == 1 && spelplan[second].color != spelare)
 				{
@@ -91,41 +123,40 @@ namespace BackgammonKonsol
 
 		//privat funktion som kollar om man kan flytta brickan.
 		// 75%  gå i mål och gå från bar saknas.
-		private bool legitMove(Triangel[] spelplan, ref int first, ref int second, int[] dices, Colors spelare)
+		private int legitMove(Triangel[] spelplan, int first, int second, int[] dices, Colors spelare)
 		{
 			int langd;
 			int indextarning = -1;
 
 			if(spelare==Colors.Black) 
 			{
-				if(second >= first) return false;
+				if(second >= first) return -1;
 				langd = first-second;
 			}
 			else 
 			{
-				if(first >= second) return false;
+				if(first >= second) return -1;
 				langd = second-first;
 			}
 
 
 
 				for(int i=0;i<dices.Length;i++) if (dices[i]==langd) indextarning = i;
-				if(indextarning == -1) return false;
+				if(indextarning == -1) return -1;
 
 				first = correctPos(first);
 				second = correctPos(second);
 
-				if (spelplan[first].color != spelare || spelplan[first].antal == 0) return false;
+				if (spelplan[first].color != spelare || spelplan[first].antal == 0) return -1;
 				if (spelplan[second].antal <= 1 || spelplan[second].color == spelare) 
 				{
-					dices[indextarning] = 0;
-					return true;
+					return indextarning;
 				}
 				
 
 
 
-			return false;
+			return -1;
 
 		}
 

@@ -45,28 +45,29 @@ namespace BackgammonKonsol
 				_vy.drawBoard(spelplan);
 				Console.WriteLine();
 				int [] dices = _model.letsRollTheDice();
-				Console.Write("Spelare ");
-				if((int)spelare == 0) Console.Write("O slog ");
-				else Console.Write("@ slog ");
-				for(int i=0; i<dices.Length;i++) if(dices[i] != 0) Console.Write(dices[i] + " ");
-				Console.WriteLine();
-				Console.WriteLine();
 
 
-				//loop som är baserad på canMove() funktion.
-				Console.Write("Från: ");
-				int first = Convert.ToInt32(Console.ReadLine());
-				Console.Write("Till: ");
-				int second = Convert.ToInt32(Console.ReadLine());
+				while(_model.canMove(spelplan,spelare,dices))
+					{ 
+					Console.Write("Spelare ");
+					if((int)spelare == 0) Console.Write("O slog ");
+					else Console.Write("@ slog ");
+					for(int i=0; i<dices.Length;i++) if(dices[i] != 0) Console.Write(dices[i] + " ");
+					Console.WriteLine();
+					Console.WriteLine();
+					Console.Write("Från: ");
+					int first = Convert.ToInt32(Console.ReadLine());
+					Console.Write("Till: ");
+					int second = Convert.ToInt32(Console.ReadLine());
 
-				if(!_model.move(spelplan, ref first, ref second, dices, spelare)) 
-				{
-					Console.Write("Felakigt move");
-					Console.ReadLine();
-				}
+					if(!_model.move(spelplan, ref first, ref second, dices, spelare)) 
+					{
+						Console.Write("Felakigt move");
+						Console.ReadLine();
+					}
 
-				_vy.drawBoard(spelplan);
-				//
+					_vy.drawBoard(spelplan);
+					}
 
 				Console.Write("Nästa spelares turn");
 				Console.ReadLine();
