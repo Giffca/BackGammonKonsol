@@ -48,7 +48,7 @@ namespace BackgammonKonsol
 				Console.Write("Spelare ");
 				if((int)spelare == 0) Console.Write("O slog ");
 				else Console.Write("@ slog ");
-				for(int i=0; i<dices.Length;i++) Console.Write(dices[i] + " ");
+				for(int i=0; i<dices.Length;i++) if(dices[i] != 0) Console.Write(dices[i] + " ");
 				Console.WriteLine();
 				Console.WriteLine();
 
