@@ -39,7 +39,7 @@ namespace BackgammonKonsol
 
 
 		// kollar om någon vunnit genom att se om något element är lika med 0, controllern kollar detta.
-		// 99%
+		// 100%
 		public int[] checkersInGame(Triangel[] spelplan)
 		{
 			int[] brickor = {0,0};
@@ -55,12 +55,23 @@ namespace BackgammonKonsol
 		}
 
 
-		// Kanske ska kolla utslagna först och om en utslagen kan spelas ut så måste man flytta den, tror jag.  så kanske ändra return typ på denna.
-		// 20%
-		public bool canMove(Triangel[] spelplan, Colors spelare, int[] dices)
+		// 75% gå i mål och kod för spelare 2 saknas.
+		public int canMove(Triangel[] spelplan, Colors spelare, int[] dices)
 		{
 			if (spelare == Colors.White)
 				{
+					if(spelplan[6].antal > 0)
+					{
+						foreach (int n in dices) 
+							{
+							if(n != 0)
+								{ 
+								if(spelplan[-1+n].antal <= 1 || spelplan[-1+n].color == spelare) return -1;
+								}
+							}
+						return 0;
+					}
+
 					for (int i = 1; i < 24; i++)
 					{
 						int pos = correctPos(i);
@@ -70,7 +81,7 @@ namespace BackgammonKonsol
 							{
 								if(i+n <= 24)
 									{ 
-									if(legitMove(spelplan,pos,pos+n,dices,spelare) != -1) return true;
+									if(legitMove(spelplan,pos,pos+n,dices,spelare) != -1) return 1;
 									}
 							}
 						}
@@ -87,18 +98,20 @@ namespace BackgammonKonsol
 			//			}
 			//		}
 			//	}
-			return false;
+			return 0;
 		}
 
 
 		//flyttar en bricka.
-		// 75%  gå i mål och gå från bar saknas.
-		public bool move(Triangel[] spelplan, ref int first, ref int second, int[] dices,Colors spelare)
+		// 75%  gå i mål och kod för spelare 2 saknas.
+		public bool move(Triangel[] spelplan, int first, int second, int[] dices,Colors spelare)
 		{
 			int index = legitMove(spelplan,first,second, dices, spelare);
 			if(index != -1)
 			{
-				first = correctPos(first);
+				if (first != -1) first = correctPos(first);
+				else first = 6;
+
 				second = correctPos(second);
 				dices[index] = 0;
 
@@ -122,7 +135,7 @@ namespace BackgammonKonsol
 
 
 		//privat funktion som kollar om man kan flytta brickan.
-		// 75%  gå i mål och gå från bar saknas.
+		// 75%  gå i mål och kod för spelare 2 saknas.
 		private int legitMove(Triangel[] spelplan, int first, int second, int[] dices, Colors spelare)
 		{
 			int langd;
@@ -135,8 +148,13 @@ namespace BackgammonKonsol
 			}
 			else 
 			{
-				if(first >= second) return -1;
-				langd = second-first;
+				if(first == -1) langd = second;
+				else
+					{ 
+						if(first >= second) return -1;
+						langd = second-first;
+					}
+				
 			}
 
 
@@ -144,7 +162,8 @@ namespace BackgammonKonsol
 				for(int i=0;i<dices.Length;i++) if (dices[i]==langd) indextarning = i;
 				if(indextarning == -1) return -1;
 
-				first = correctPos(first);
+				if (first != -1) first = correctPos(first);
+				else first = 6;
 				second = correctPos(second);
 
 				if (spelplan[first].color != spelare || spelplan[first].antal == 0) return -1;
@@ -163,7 +182,7 @@ namespace BackgammonKonsol
 
 
 		//privat funktion som rättar vald plats till elementets plats i arrayen.
-		// 75% gå i mål och från bar saknas.
+		// 75% gå i mål saknas.
 		private int correctPos(int spelplanPos)
 		{
 			if (spelplanPos > 0 && spelplanPos <= 6) return spelplanPos-1;

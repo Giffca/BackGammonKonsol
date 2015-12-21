@@ -25,6 +25,8 @@ namespace BackgammonKonsol
 			spelplan[0].color = Colors.White;
 			spelplan[5].antal = 5;
 			spelplan[5].color = Colors.Black;
+			spelplan[6].antal = 3;
+			spelplan[6].color = Colors.White;
 			spelplan[8].antal = 3;
 			spelplan[8].color = Colors.Black;
 			spelplan[12].antal = 5;
@@ -46,8 +48,7 @@ namespace BackgammonKonsol
 				Console.WriteLine();
 				int [] dices = _model.letsRollTheDice();
 
-
-				while(_model.canMove(spelplan,spelare,dices))
+				while(_model.canMove(spelplan,spelare,dices) != 0)
 					{ 
 					Console.Write("Spelare ");
 					if((int)spelare == 0) Console.Write("O slog ");
@@ -55,16 +56,26 @@ namespace BackgammonKonsol
 					for(int i=0; i<dices.Length;i++) if(dices[i] != 0) Console.Write(dices[i] + " ");
 					Console.WriteLine();
 					Console.WriteLine();
-					Console.Write("Från: ");
-					int first = Convert.ToInt32(Console.ReadLine());
-					Console.Write("Till: ");
-					int second = Convert.ToInt32(Console.ReadLine());
-
-					if(!_model.move(spelplan, ref first, ref second, dices, spelare)) 
-					{
-						Console.Write("Felakigt move");
-						Console.ReadLine();
-					}
+					int first;
+					int second;
+						if (_model.canMove(spelplan,spelare,dices) == -1)
+							{
+							Console.Write("Spela in utslagen bricka till: ");
+							first = -1;
+							second = Convert.ToInt32(Console.ReadLine());
+							}
+						else
+							{
+							Console.Write("Från: ");
+							first = Convert.ToInt32(Console.ReadLine());
+							Console.Write("Till: ");
+							second = Convert.ToInt32(Console.ReadLine());
+							}
+						if(!_model.move(spelplan, first, second, dices, spelare)) 
+							{
+							Console.Write("Felakigt move");
+							Console.ReadLine();
+							}
 
 					_vy.drawBoard(spelplan);
 					}
