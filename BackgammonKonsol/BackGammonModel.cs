@@ -71,12 +71,15 @@ namespace BackgammonKonsol
 							}
 						return 0;
 					}
+					bool canGoal = true;
 
 					for (int i = 1; i < 24; i++)
 					{
 						int pos = correctPos(i);
 						if(spelplan[pos].color == spelare && spelplan[pos].antal > 0)
 						{
+							if(i < 19) canGoal = false;
+
 							foreach (int n in dices) 
 							{
 								if(i+n <= 24)
