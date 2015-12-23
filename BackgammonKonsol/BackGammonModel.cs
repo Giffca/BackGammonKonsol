@@ -64,17 +64,19 @@ namespace BackgammonKonsol
 						if(spelplan[pos].color == spelare && spelplan[pos].antal > 0)
 						{
 							if(i < 19) canGoal = false;
-							else lowerdice = false;
+
 
 							foreach (int n in dices) 
 							{
-								if(i+n <= 24 && legitMove(spelplan,pos,pos+n,dices,spelare) != -1) 
+								if(pos+n <= 25 && legitMove(spelplan,pos,pos+n,dices,spelare) != -1) 
 								{
 									if (i>18 && canGoal) return 2;
 									return 1;
 								}
 
-								if(canGoal && i+n-lowval == 25) return 2;
+								if(n == 26-i && lowerdice && canGoal && i+n-lowval == 25) return 2; // behöver en smart lösning här.
+
+								if(canGoal && i+n == 25) return 2;
 							}
 						}
 						else
@@ -100,7 +102,7 @@ namespace BackgammonKonsol
 
 
 		//flyttar en bricka.
-		// 75%  gå i mål
+		// 100%
 		public bool move(Triangel[] spelplan, int first, int second, int[] dices,Colors spelare)
 		{
 			int index = legitMove(spelplan,first,second, dices, spelare);
@@ -132,10 +134,27 @@ namespace BackgammonKonsol
 		}
 
 
+		public bool moveGoal(Triangel[] spelplan, int first,int[] dices,Colors spelare)
+		{
+		int[] dice = new int [4];
+		for(int i = 0; i<4;i++) dice[i] = dices[i];
 
+			if(spelare==Colors.White)
+				{
+				for(int i = 19, j = 7; i<24; i++, j--)
+					{
+					if(spelplan[i].antal == 0 || spelplan[i].color == Colors.Black)
+						{
+						for(int k = 0; k<4;i++) if(dice[k]==j) dice[k]--;
+						}
+					else break;
+					}
+				}
+		return false;
+		}
 
 		//privat funktion som kollar om man kan flytta brickan.
-		// 75%  gå i mål
+		// 90%
 		private int legitMove(Triangel[] spelplan, int first, int second, int[] dices, Colors spelare)
 		{
 			int langd;
@@ -167,7 +186,8 @@ namespace BackgammonKonsol
 				if(indextarning == -1) return -1;
 
 				if (first != -1) first = correctPos(first);
-				else first = 6;
+				else if(spelare == Colors.White) first = 6;
+				else first = 19;
 				second = correctPos(second);
 
 				if (spelplan[first].color != spelare || spelplan[first].antal == 0) return -1;
@@ -186,7 +206,7 @@ namespace BackgammonKonsol
 
 
 		//privat funktion som rättar vald plats till elementets plats i arrayen.
-		// 75% gå i mål saknas.
+		// 100%
 		private int correctPos(int spelplanPos)
 		{
 			if (spelplanPos > 0 && spelplanPos <= 6) return spelplanPos-1;

@@ -21,25 +21,35 @@ namespace BackgammonKonsol
 		_vy = new BackGammonConsoleView();
 
 		Triangel [] spelplan = new Triangel[26];  // 26 för att två platser används för utslagna brickor.
-			spelplan[0].antal = 2;
-			spelplan[0].color = Colors.White;
-			spelplan[5].antal = 5;
-			spelplan[5].color = Colors.Black;
-			spelplan[6].antal = 3;
-			spelplan[6].color = Colors.White;
-			spelplan[8].antal = 3;
-			spelplan[8].color = Colors.Black;
-			spelplan[12].antal = 5;
-			spelplan[12].color = Colors.White;
-			spelplan[13].antal = 5;
-			spelplan[13].color = Colors.Black;
-			spelplan[17].antal = 3;
-			spelplan[17].color = Colors.White;
-			spelplan[20].antal = 5;
-			spelplan[20].color = Colors.White;
-			spelplan[25].antal = 2;
-			spelplan[25].color = Colors.Black;
+			//spelplan[0].antal = 2;
+			//spelplan[0].color = Colors.White;
+			//spelplan[5].antal = 5;
+			//spelplan[5].color = Colors.Black;
+			//spelplan[8].antal = 3;
+			//spelplan[8].color = Colors.Black;
+			//spelplan[12].antal = 5;
+			//spelplan[12].color = Colors.White;
+			//spelplan[13].antal = 5;
+			//spelplan[13].color = Colors.Black;
+			//spelplan[17].antal = 3;
+			//spelplan[17].color = Colors.White;
+			//spelplan[20].antal = 5;
+			//spelplan[20].color = Colors.White;
+			//spelplan[25].antal = 2;
+			//spelplan[25].color = Colors.Black;
 			
+
+			spelplan[20].antal = 2;
+			spelplan[20].color = Colors.White;
+			spelplan[22].antal = 3;
+			spelplan[22].color = Colors.White;
+			spelplan[23].antal = 4;
+			spelplan[23].color = Colors.White;
+			spelplan[24].antal = 5;
+			spelplan[24].color = Colors.White;
+			spelplan[25].antal = 1;
+			spelplan[25].color = Colors.White;
+
 			Colors spelare = Colors.White;
 
 			while(true)
@@ -71,7 +81,11 @@ namespace BackgammonKonsol
 							Console.Write("Till: ");
 							second = Convert.ToInt32(Console.ReadLine());
 							}
-						if(!_model.move(spelplan, first, second, dices, spelare)) 
+						if((second == 0 || second == 25) && _model.canMove(spelplan,spelare,dices) == 2)
+							{
+							_model.moveGoal(spelplan,first,dices, spelare);
+							}
+						else if(!_model.move(spelplan, first, second, dices, spelare)) 
 							{
 							Console.Write("Felakigt move");
 							Console.ReadLine();

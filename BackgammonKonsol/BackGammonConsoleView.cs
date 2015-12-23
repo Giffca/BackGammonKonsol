@@ -51,7 +51,7 @@ namespace BackgammonKonsol
 							if (spelplan[j].antal > i)
 							{
 								if (spelplan[j].color == Colors.Black) Console.Write(" @  |");
-								else Console.Write("  O  |");
+								else Console.Write("  O |");
 							}
 							else Console.Write("    |");
 						}
