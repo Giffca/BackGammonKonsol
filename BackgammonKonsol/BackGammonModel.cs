@@ -51,6 +51,7 @@ namespace BackgammonKonsol
 
 
 		// 75% gå i mål och kod för spelare 2 saknas.
+<<<<<<< HEAD
         public int canMove(Triangel[] spelplan, Colors spelare, int[] dices)
         {
             bool hittadBricka = false;
@@ -121,6 +122,55 @@ namespace BackgammonKonsol
            
         
           
+=======
+		public int canMove(Triangel[] spelplan, Colors spelare, int[] dices)
+		{
+			if (spelare == Colors.White)
+				{
+					if(spelplan[6].antal > 0)
+					{
+						foreach (int n in dices) 
+							{
+							if(n != 0)
+								{ 
+								if(spelplan[-1+n].antal <= 1 || spelplan[-1+n].color == spelare) return -1;
+								}
+							}
+						return 0;
+					}
+					bool canGoal = true;
+
+					for (int i = 1; i < 24; i++)
+					{
+						int pos = correctPos(i);
+						if(spelplan[pos].color == spelare && spelplan[pos].antal > 0)
+						{
+							if(i < 19) canGoal = false;
+
+							foreach (int n in dices) 
+							{
+								if(i+n <= 24)
+									{ 
+									if(legitMove(spelplan,pos,pos+n,dices,spelare) != -1) return 1;
+									}
+							}
+						}
+					}
+				}
+			//else
+			//	{
+			//		for (int i = 25; i > 0; i--)
+			//		{	
+			//			int pos = correctPos(i);
+			//			if(spelplan[pos].color == spelare && spelplan[pos].antal > 0)
+			//			{
+							
+			//			}
+			//		}
+			//	}
+			return 0;
+		}
+>>>>>>> origin/master
 
 
 		//flyttar en bricka.
