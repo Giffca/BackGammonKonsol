@@ -61,7 +61,7 @@ namespace BackgammonKonsol
 						if (_model.canMove(spelplan,spelare,dices) == -1)
 							{
 							Console.Write("Spela in utslagen bricka till: ");
-							first = -1;
+							first = -10;
 							second = Convert.ToInt32(Console.ReadLine());
 							}
 						else
