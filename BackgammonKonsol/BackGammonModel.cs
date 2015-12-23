@@ -37,7 +37,26 @@ namespace BackgammonKonsol
 			return dices;
 		}
 
-
+		// 100%  det behöver skickas in en 26 element lång array.
+		public void newGame(Triangel[] spelplan)
+		{
+ 			spelplan[0].antal = 2;
+			spelplan[0].color = Colors.White;
+			spelplan[5].antal = 5;
+			spelplan[5].color = Colors.Black;
+			spelplan[8].antal = 3;
+			spelplan[8].color = Colors.Black;
+			spelplan[12].antal = 5;
+			spelplan[12].color = Colors.White;
+			spelplan[13].antal = 5;
+			spelplan[13].color = Colors.Black;
+			spelplan[17].antal = 3;
+			spelplan[17].color = Colors.White;
+			spelplan[20].antal = 5;
+			spelplan[20].color = Colors.White;
+			spelplan[25].antal = 2;
+			spelplan[25].color = Colors.Black;
+		}
 
 		// 75% gå i mål och kod för spelare 2 saknas.
         public int canMove(Triangel[] spelplan, Colors spelare, int[] dices)
@@ -133,7 +152,7 @@ namespace BackgammonKonsol
 			return false;
 		}
 
-
+		//funktion som används när man försöker gå i mål.
 		public bool moveGoal(Triangel[] spelplan, int first,int[] dices,Colors spelare)
 		{
 		int[] dice = new int [4];
@@ -152,6 +171,13 @@ namespace BackgammonKonsol
 				}
 		return false;
 		}
+
+		//funktion som kollar om man kan gå i mål.
+		private int legitMoveGoal(Triangel[] spelplan, int first, int[] dices, Colors spelare)
+		{
+			return -1;
+		}
+
 
 		//privat funktion som kollar om man kan flytta brickan.
 		// 90%
