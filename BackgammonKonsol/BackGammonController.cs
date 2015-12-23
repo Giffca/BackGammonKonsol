@@ -42,7 +42,7 @@ namespace BackgammonKonsol
 			
 			Colors spelare = Colors.White;
 
-			while(_model.checkersInGame(spelplan)[0] != 0 || _model.checkersInGame(spelplan)[1] != 0 )
+			while(true)
 			{
 				_vy.drawBoard(spelplan);
 				Console.WriteLine();
@@ -60,8 +60,8 @@ namespace BackgammonKonsol
 					int second;
 						if (_model.canMove(spelplan,spelare,dices) == -1)
 							{
+							first = -1;
 							Console.Write("Spela in utslagen bricka till: ");
-							first = -10;
 							second = Convert.ToInt32(Console.ReadLine());
 							}
 						else
