@@ -68,7 +68,12 @@ namespace BackgammonKonsol
 
 							foreach (int n in dices) 
 							{
-								if(i+n <= 24 && legitMove(spelplan,pos,pos+n,dices,spelare) != -1) return 2;
+								if(i+n <= 24 && legitMove(spelplan,pos,pos+n,dices,spelare) != -1) 
+								{
+									if (i>18 && canGoal) return 2;
+									return 1;
+								}
+
 								if(canGoal && i+n-lowval == 25) return 2;
 							}
 						}
