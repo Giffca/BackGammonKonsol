@@ -22,15 +22,8 @@ namespace BackgammonKonsol
 
 		Triangel [] spelplan = new Triangel[26];  // 26 för att två platser används för utslagna brickor.
 
-			spelplan[20].antal = 2;
-			spelplan[20].color = Colors.White;
-			spelplan[22].antal = 3;
-			spelplan[22].color = Colors.White;
-			spelplan[23].antal = 4;
-			spelplan[23].color = Colors.White;
-			spelplan[24].antal = 5;
-			spelplan[24].color = Colors.White;
-			spelplan[25].antal = 1;
+
+			spelplan[25].antal = 7;
 			spelplan[25].color = Colors.White;
 
 			Colors spelare = Colors.White;
@@ -40,9 +33,10 @@ namespace BackgammonKonsol
 				_vy.drawBoard(spelplan);
 				Console.WriteLine();
 				int [] dices = _model.letsRollTheDice();
+				int status = _model.canMove(spelplan,spelare,dices);
 
-				while(_model.canMove(spelplan,spelare,dices) != 0)
-					{ 
+				while(status != 0)
+					{
 					Console.Write("Spelare ");
 					if((int)spelare == 0) Console.Write("O slog ");
 					else Console.Write("@ slog ");
@@ -51,7 +45,7 @@ namespace BackgammonKonsol
 					Console.WriteLine();
 					int first;
 					int second;
-						if (_model.canMove(spelplan,spelare,dices) == -1)
+						if (status == -1)
 							{
 							first = -1;
 							Console.Write("Spela in utslagen bricka till: ");
@@ -64,10 +58,13 @@ namespace BackgammonKonsol
 							Console.Write("Till: ");
 							second = Convert.ToInt32(Console.ReadLine());
 							}
-						if((second == 0 || second == 25) && _model.canMove(spelplan,spelare,dices) == 2)
+
+
+						if((second == 0 || second == 25) && status == 2)
 							{
-							_model.moveGoal(spelplan,first,dices, spelare);
+							_model.moveGoal(spelplan,first,dices,spelare);
 							}
+
 						else if(!_model.move(spelplan, first, second, dices, spelare)) 
 							{
 							Console.Write("Felakigt move");
@@ -75,6 +72,7 @@ namespace BackgammonKonsol
 							}
 
 					_vy.drawBoard(spelplan);
+					status = _model.canMove(spelplan,spelare,dices);
 					}
 
 				Console.Write("Nästa spelares turn");

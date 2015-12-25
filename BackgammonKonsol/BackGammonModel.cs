@@ -58,7 +58,7 @@ namespace BackgammonKonsol
 			spelplan[25].color = Colors.Black;
 		}
 
-		// 75% gå i mål och kod för spelare 2 saknas.
+		// 75% spelare 2 saknas.
         public int canMove(Triangel[] spelplan, Colors spelare, int[] dices)
 		{
 			if (spelare == Colors.White)
@@ -74,36 +74,37 @@ namespace BackgammonKonsol
 							}
 						return 0;
 					}
+
+
 					bool canGoal = true;
-					bool lowerdice = true;
-					int lowval = 0;
-					for (int i = 1; i < 24; i++)
+					for (int i = 1; i <= 24; i++)
 					{
 						int pos = correctPos(i);
 						if(spelplan[pos].color == spelare && spelplan[pos].antal > 0)
 						{
-							if(i < 19) canGoal = false;
+							if(i < 19) canGoal = false; 
+							else if (canGoal && legitMoveGoal(spelplan,i,dices,spelare) != -1) return 2;
 
 
 							foreach (int n in dices) 
 							{
-								if(pos+n <= 25 && legitMove(spelplan,pos,pos+n,dices,spelare) != -1) 
-								{
-									if (i>18 && canGoal) return 2;
-									return 1;
+								if (n != 0)
+								{ 
+									if(i+n <= 24 && legitMove(spelplan,i,i+n,dices,spelare) != -1) 
+									{
+										if (i>18 && canGoal) return 2;
+										else return 1;
+									}
 								}
-
-								if(n == 26-i && lowerdice && canGoal && i+n-lowval == 25) return 2; // behöver en smart lösning här.
-
-								if(canGoal && i+n == 25) return 2;
 							}
-						}
-						else
-						{
-							if(lowerdice) lowval++;
+
+							
+							
 						}
 					}
 				}
+
+
 			//else
 			//	{
 			//		for (int i = 25; i > 0; i--)
@@ -153,34 +154,53 @@ namespace BackgammonKonsol
 		}
 
 		//funktion som används när man försöker gå i mål.
+		// 75% spelare 2 saknas.
 		public bool moveGoal(Triangel[] spelplan, int first,int[] dices,Colors spelare)
 		{
-		int[] dice = new int [4];
-		for(int i = 0; i<4;i++) dice[i] = dices[i];
+			int index = legitMoveGoal(spelplan,first,dices,spelare);
+			if(index != -1)
+				{
+				first = correctPos(first);
+				dices[index] = 0;
+				spelplan[first].antal--;
+				return true;
+				}
+	
+			return false;
+		}
+
+
+
+		//funktion som kollar om man kan gå i mål.
+		// 75%  spelare 2 saknas.
+		private int legitMoveGoal(Triangel[] spelplan, int first, int[] dices, Colors spelare)
+		{
+			int[] dice = new int [4];
+			for(int i = 0; i<4;i++) dice[i] = dices[i];
 
 			if(spelare==Colors.White)
 				{
-				for(int i = 19, j = 7; i<24; i++, j--)
+				for(int i=20; i<=25; i++)
 					{
 					if(spelplan[i].antal == 0 || spelplan[i].color == Colors.Black)
 						{
-						for(int k = 0; k<4;i++) if(dice[k]==j) dice[k]--;
+						for(int j = 0; j<4;j++)
+							{
+								if(dice[j]==26-i) dice[j]--;
+							}
 						}
 					else break;
 					}
 				}
-		return false;
-		}
 
-		//funktion som kollar om man kan gå i mål.
-		private int legitMoveGoal(Triangel[] spelplan, int first, int[] dices, Colors spelare)
-		{
+			for(int i=0;i<dice.Length;i++) if (dice[i]+first == 25) return i;
+
 			return -1;
 		}
 
 
 		//privat funktion som kollar om man kan flytta brickan.
-		// 90%
+		// 100%
 		private int legitMove(Triangel[] spelplan, int first, int second, int[] dices, Colors spelare)
 		{
 			int langd;
@@ -242,6 +262,7 @@ namespace BackgammonKonsol
 
 
 		//vet inte hur mycket Ragnar vill ha selftests, men många saker behöver testas iaf.
+		// 33%
 		public static bool SelfTest()
 		{
 			bool ok = true;
