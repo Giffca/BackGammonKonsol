@@ -44,6 +44,7 @@ namespace BackgammonKonsol
 			spelplan[0].color = Colors.White;
 			spelplan[5].antal = 5;
 			spelplan[5].color = Colors.Black;
+			spelplan[6].color = Colors.White;
 			spelplan[8].antal = 3;
 			spelplan[8].color = Colors.Black;
 			spelplan[12].antal = 5;
@@ -52,13 +53,14 @@ namespace BackgammonKonsol
 			spelplan[13].color = Colors.Black;
 			spelplan[17].antal = 3;
 			spelplan[17].color = Colors.White;
+			spelplan[19].color = Colors.Black;
 			spelplan[20].antal = 5;
 			spelplan[20].color = Colors.White;
 			spelplan[25].antal = 2;
 			spelplan[25].color = Colors.Black;
 		}
 
-		// 75% spelare 2 saknas.
+		// 90% inte testat efter bugs.
         public int canMove(Triangel[] spelplan, Colors spelare, int[] dices)
 		{
 			if (spelare == Colors.White)
@@ -105,17 +107,48 @@ namespace BackgammonKonsol
 				}
 
 
-			//else
-			//	{
-			//		for (int i = 25; i > 0; i--)
-			//		{	
-			//			int pos = correctPos(i);
-			//			if(spelplan[pos].color == spelare && spelplan[pos].antal > 0)
-			//			{
+			else
+				{
+
+					if(spelplan[19].antal > 0)
+						{
+							foreach (int n in dices) 
+								{
+								if(n != 0)
+									{ 
+									if(spelplan[26-n].antal <= 1 || spelplan[26-n].color == spelare) return -1;
+									}
+								}
+							return 0;
+						}
+
+					bool canGoal = true;
+					for (int i = 24; i >= 1; i--)
+					{
+						int pos = correctPos(i);
+						if(spelplan[pos].color == spelare && spelplan[pos].antal > 0)
+						{
+							if(i > 6) canGoal = false; 
+							else if (canGoal && legitMoveGoal(spelplan,i,dices,spelare) != -1) return 2;
+
+
+							foreach (int n in dices) 
+							{
+								if (n != 0)
+								{ 
+									if(i-n >= 1 && legitMove(spelplan,i,i-n,dices,spelare) != -1) 
+									{
+										if (i<=6 && canGoal) return 2;
+										else return 1;
+									}
+								}
+							}
+
 							
-			//			}
-			//		}
-			//	}
+							
+						}
+					}
+				}
 			return 0;
 		}
 
@@ -154,7 +187,7 @@ namespace BackgammonKonsol
 		}
 
 		//funktion som används när man försöker gå i mål.
-		// 75% spelare 2 saknas.
+		// 90% inte testat bugs
 		public bool moveGoal(Triangel[] spelplan, int first,int[] dices,Colors spelare)
 		{
 			int index = legitMoveGoal(spelplan,first,dices,spelare);
@@ -172,7 +205,7 @@ namespace BackgammonKonsol
 
 
 		//funktion som kollar om man kan gå i mål.
-		// 75%  spelare 2 saknas.
+		// 90% inte testat bugs
 		private int legitMoveGoal(Triangel[] spelplan, int first, int[] dices, Colors spelare)
 		{
 			int[] dice = new int [4];
@@ -191,9 +224,27 @@ namespace BackgammonKonsol
 						}
 					else break;
 					}
+				for(int i=0;i<dice.Length;i++) if (dice[i]+first == 25) return i;
 				}
 
-			for(int i=0;i<dice.Length;i++) if (dice[i]+first == 25) return i;
+			if(spelare==Colors.Black)
+				{
+				for(int i=5; i>=0; i--)
+					{
+					if(spelplan[i].antal == 0 || spelplan[i].color == Colors.Black)
+						{
+						for(int j = 0; j<4;j++)
+							{
+								if(dice[j]==1+i) dice[j]--;
+							}
+						}
+					else break;
+					}
+				for(int i=0;i<dice.Length;i++) if (first-dice[i] == 0) return i;
+				}
+
+
+			
 
 			return -1;
 		}

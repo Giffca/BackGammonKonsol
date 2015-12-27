@@ -21,14 +21,13 @@ namespace BackgammonKonsol
 		_vy = new BackGammonConsoleView();
 
 		Triangel [] spelplan = new Triangel[26];  // 26 för att två platser används för utslagna brickor.
-			int player1checkers = 1;
+			int player1checkers = 15;
 			int player2checkers = 15;
 			
-			spelplan[25].antal = 1;
-			spelplan[25].color = Colors.White;
-			//_model.newGame(spelplan);
+			_model.newGame(spelplan);
+			spelplan[19].antal = 3;
 
-			Colors spelare = Colors.White;
+			Colors spelare = Colors.Black;
 
 			while(true)
 			{
