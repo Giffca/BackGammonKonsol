@@ -20,14 +20,11 @@ namespace BackgammonKonsol
 		_model = new BackGammonModel();
 		_vy = new BackGammonConsoleView();
 
-		    Triangel [] spelplan = new Triangel[26];  // 26 för att två platser används för utslagna brickor.
+		    Triangel [] spelplan = _model.newGame();
 			int player1checkers = 15;
 			int player2checkers = 15;
 
-            _model.newGame();       
-			spelplan[19].antal = 3;
-
-			Colors spelare = Colors.Black;
+			Colors spelare = Colors.White;
 
 			while(true)
 			{
@@ -36,7 +33,7 @@ namespace BackgammonKonsol
 				int [] dices = _model.letsRollTheDice();
 				int status = _model.canMove(spelplan,spelare,dices);
 
-				while(status != 0 && player1checkers != 0)
+				while(status != 0 && player1checkers != 0 && player2checkers != 0)
 					{
 					Console.Write("Spelare ");
 					if((int)spelare == 0) Console.Write("O slog ");
@@ -86,6 +83,12 @@ namespace BackgammonKonsol
 						Console.WriteLine("Spelare 1 vinner.");
 						break;
 						}
+				if(player2checkers == 0)
+						{
+						Console.WriteLine("Spelare 2 vinner.");
+						break;
+						}
+
 				Console.Write("Nästa spelares turn");
 				Console.ReadLine();
 				if(spelare == Colors.White) spelare = Colors.Black;

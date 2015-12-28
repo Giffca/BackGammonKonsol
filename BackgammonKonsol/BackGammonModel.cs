@@ -37,7 +37,7 @@ namespace BackgammonKonsol
 			return dices;
 		}
 
-		// 100%  det behöver skickas in en 26 element lång array.
+		// 100% 
 		public Triangel[] newGame()
 		{
             Triangel[] spelplan = new Triangel[26];
@@ -352,8 +352,30 @@ namespace BackgammonKonsol
 			}
 			System.Diagnostics.Debug.WriteLine("LetsRollTheDice " + ok);
 
+			// Test för newGame()
+			//
+
+			Triangel[] test2 = new Triangel[5];
+
+ 			test2[0].antal = 1;
+			test2[1].antal = 1;
+			test2[2].antal = 1;
+			test2[3].antal = 1;
+			test2[4].antal = 1;
+
+			test2 = test.newGame();
+
+			ok = ok && test2[0].antal != 1;
+			ok = ok && test2[1].antal != 1;
+			ok = ok && test2[2].antal != 1;
+			ok = ok && test2[3].antal != 1;
+			ok = ok && test2[4].antal != 1;
+			ok = ok && test2.Length==26;
+
+			System.Diagnostics.Debug.WriteLine("newGame " + ok);
 
 			// Test för correctPos()
+			//
 			ok = ok && test.correctPos(1) == 0;
 			ok = ok && test.correctPos(6) == 5;
 			ok = ok && test.correctPos(7) == 7;
@@ -365,8 +387,7 @@ namespace BackgammonKonsol
 			
 
             //Test för legitMove()
-            Triangel[] test2 = test.newGame();
-
+			//
             int[] dices1 = { 2, 1, 0, 0 };
 
             // Spelare Black
@@ -375,19 +396,57 @@ namespace BackgammonKonsol
             ok = ok && test.legitMove(test2, 21, 19, dices1, Colors.Black) == -1; 
             ok = ok && test.legitMove(test2, 19, 21, dices1, Colors.Black) == -1; 
             ok = ok && test.legitMove(test2, 13, 12, dices1, Colors.Black) == -1; 
+			dices1[0] = 4;
+			ok = ok && test.legitMove(test2, 24, 20, dices1, Colors.Black) == 0;
+ 			dices1[1] = 4;
+			ok = ok && test.legitMove(test2, 24, 20, dices1, Colors.Black) == 1; 
+			dices1[2] = 4;
+			ok = ok && test.legitMove(test2, 24, 20, dices1, Colors.Black) == 2; 
+			dices1[3] = 4;
+			ok = ok && test.legitMove(test2, 24, 20, dices1, Colors.Black) == 3;
+			dices1[0] = 0;
+			ok = ok && test.legitMove(test2, 24, 20, dices1, Colors.Black) == 3;
+			dices1[1] = 0;
+			ok = ok && test.legitMove(test2, 24, 20, dices1, Colors.Black) == 3; 
+			dices1[2] = 0;
+			ok = ok && test.legitMove(test2, 24, 20, dices1, Colors.Black) == 3; 
+			dices1[3] = 0;
+			ok = ok && test.legitMove(test2, 24, 20, dices1, Colors.Black) == -1;
+			//spela från bar
+			test2[19].antal = 1;
+			ok = ok && test.legitMove(test2, -1, 1, dices1, Colors.Black) == -1;
 
-            //Spelare White
+			//Spelare White
+			dices1[0] = 2;
+			dices1[1] = 1;
+			dices1[2] = 0;
+			dices1[3] = 0;
             ok = ok && test.legitMove(test2, 1, 3, dices1, Colors.White) == 0;  
             ok = ok && test.legitMove(test2, 8, 10, dices1, Colors.White) == -1; 
             ok = ok && test.legitMove(test2, 22, 20, dices1, Colors.White) == -1;
             ok = ok && test.legitMove(test2, 12, 10, dices1, Colors.White) == -1;
             ok = ok && test.legitMove(test2, 17, 20, dices1, Colors.Black) == -1;
+			dices1[0] = 4;
+			ok = ok && test.legitMove(test2, 1, 5, dices1, Colors.White) == 0; 
+			dices1[1] = 4;
+			ok = ok && test.legitMove(test2, 1, 5, dices1, Colors.White) == 1;
+			dices1[2] = 4;
+			ok = ok && test.legitMove(test2, 1, 5, dices1, Colors.White) == 2;
+			dices1[3] = 4;
+			ok = ok && test.legitMove(test2, 1, 5, dices1, Colors.White) == 3;
+			//spela från bar
+			test2[6].antal = 1;
+			ok = ok && test.legitMove(test2, -1, 21, dices1, Colors.Black) == 3;
 
             System.Diagnostics.Debug.WriteLine("legitMove " + ok);
 
             //Test för legitMoveGoal()
 
             //Spelare Black
+			dices1[0] = 1;
+			dices1[1] = 1;
+			dices1[2] = 1;
+			dices1[3] = 1;
             ok = ok && test.legitMoveGoal(test2, 5, dices1, Colors.Black) == -1;
 
             //Spelare White
