@@ -20,18 +20,18 @@ namespace BackgammonKonsol
 		_model = new BackGammonModel();
 		_vy = new BackGammonConsoleView();
 
-		Triangel [] spelplan = new Triangel[26];  // 26 för att två platser används för utslagna brickor.
+		    Triangel [] spelplan = new Triangel[26];  // 26 för att två platser används för utslagna brickor.
 			int player1checkers = 15;
 			int player2checkers = 15;
-			
-			_model.newGame(spelplan);
+
+            _model.newGame();       
 			spelplan[19].antal = 3;
 
 			Colors spelare = Colors.Black;
 
 			while(true)
 			{
-				_vy.drawBoard(spelplan);
+                _vy.drawBoard(spelplan);           
 				Console.WriteLine();
 				int [] dices = _model.letsRollTheDice();
 				int status = _model.canMove(spelplan,spelare,dices);

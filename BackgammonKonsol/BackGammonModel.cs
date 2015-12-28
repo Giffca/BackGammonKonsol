@@ -38,8 +38,10 @@ namespace BackgammonKonsol
 		}
 
 		// 100%  det behöver skickas in en 26 element lång array.
-		public void newGame(Triangel[] spelplan)
+		public Triangel[] newGame()
 		{
+            Triangel[] spelplan = new Triangel[26];
+
  			spelplan[0].antal = 2;
 			spelplan[0].color = Colors.White;
 			spelplan[5].antal = 5;
@@ -58,6 +60,8 @@ namespace BackgammonKonsol
 			spelplan[20].color = Colors.White;
 			spelplan[25].antal = 2;
 			spelplan[25].color = Colors.Black;
+
+           return spelplan;
 		}
 
 		// 90% inte testat efter bugs.
@@ -358,7 +362,48 @@ namespace BackgammonKonsol
 			ok = ok && test.correctPos(24) == 25;
 
 			System.Diagnostics.Debug.WriteLine("correctPos " + ok);
-			return ok;
+			
+
+            //Test för legitMove()
+            Triangel[] test2 = test.newGame();
+
+            int[] dices1 = { 2, 1, 0, 0 };
+
+            // Spelare Black
+            ok = ok && test.legitMove(test2, 13, 11, dices1, Colors.Black) == 0; 
+            ok = ok && test.legitMove(test2, 20, 19, dices1, Colors.Black) == -1; 
+            ok = ok && test.legitMove(test2, 21, 19, dices1, Colors.Black) == -1; 
+            ok = ok && test.legitMove(test2, 19, 21, dices1, Colors.Black) == -1; 
+            ok = ok && test.legitMove(test2, 13, 12, dices1, Colors.Black) == -1; 
+
+            //Spelare White
+            ok = ok && test.legitMove(test2, 1, 3, dices1, Colors.White) == 0;  
+            ok = ok && test.legitMove(test2, 8, 10, dices1, Colors.White) == -1; 
+            ok = ok && test.legitMove(test2, 22, 20, dices1, Colors.White) == -1;
+            ok = ok && test.legitMove(test2, 12, 10, dices1, Colors.White) == -1;
+            ok = ok && test.legitMove(test2, 17, 20, dices1, Colors.Black) == -1;
+
+            System.Diagnostics.Debug.WriteLine("legitMove " + ok);
+
+            //Test för legitMoveGoal()
+
+            //Spelare Black
+            ok = ok && test.legitMoveGoal(test2, 5, dices1, Colors.Black) == -1;
+
+            //Spelare White
+            ok = ok && test.legitMoveGoal(test2, 21, dices1, Colors.White) == -1;
+
+            System.Diagnostics.Debug.WriteLine("legitMoveGoal " + ok);
+
+
+            //Test för moveGoal()
+
+
+            //Test för move()
+
+
+            //Test för canMove()
+            return ok;
 		}
 
 
