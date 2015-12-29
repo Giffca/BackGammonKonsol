@@ -348,29 +348,29 @@ namespace BackgammonKonsol
 			{
 				int[] dices = test.letsRollTheDice();
 				ok = ok && dices[0] >= 1 && dices[0] <= 6 && dices[1] >= 1 && dices[1] <= 6;
-				if (dices[0] == dices[1]) if (dices.Length != 4) ok = false;
+				if (dices[0] == dices[1]) if (dices[1] != dices[2] && dices[2] != dices[3]) ok = false;
 			}
 			System.Diagnostics.Debug.WriteLine("LetsRollTheDice " + ok);
 
 			// Test för newGame()
 			//
 
-			Triangel[] test2 = new Triangel[5];
+			Triangel[] testspelplan = new Triangel[5];
 
- 			test2[0].antal = 1;
-			test2[1].antal = 1;
-			test2[2].antal = 1;
-			test2[3].antal = 1;
-			test2[4].antal = 1;
+ 			testspelplan[0].antal = 1;
+			testspelplan[1].antal = 1;
+			testspelplan[2].antal = 1;
+			testspelplan[3].antal = 1;
+			testspelplan[4].antal = 1;
 
-			test2 = test.newGame();
+			testspelplan = test.newGame();
 
-			ok = ok && test2[0].antal != 1;
-			ok = ok && test2[1].antal != 1;
-			ok = ok && test2[2].antal != 1;
-			ok = ok && test2[3].antal != 1;
-			ok = ok && test2[4].antal != 1;
-			ok = ok && test2.Length==26;
+			ok = ok && testspelplan[0].antal != 1;
+			ok = ok && testspelplan[1].antal != 1;
+			ok = ok && testspelplan[2].antal != 1;
+			ok = ok && testspelplan[3].antal != 1;
+			ok = ok && testspelplan[4].antal != 1;
+			ok = ok && testspelplan.Length==26;
 
 			System.Diagnostics.Debug.WriteLine("newGame " + ok);
 
@@ -389,59 +389,61 @@ namespace BackgammonKonsol
             //Test för legitMove()
 			//
             int[] dices1 = { 2, 1, 0, 0 };
+			testspelplan = test.newGame();
 
             // Spelare Black
-            ok = ok && test.legitMove(test2, 13, 11, dices1, Colors.Black) == 0; 
-            ok = ok && test.legitMove(test2, 20, 19, dices1, Colors.Black) == -1; 
-            ok = ok && test.legitMove(test2, 21, 19, dices1, Colors.Black) == -1; 
-            ok = ok && test.legitMove(test2, 19, 21, dices1, Colors.Black) == -1; 
-            ok = ok && test.legitMove(test2, 13, 12, dices1, Colors.Black) == -1; 
+            ok = ok && test.legitMove(testspelplan, 13, 11, dices1, Colors.Black) == 0; 
+            ok = ok && test.legitMove(testspelplan, 20, 19, dices1, Colors.Black) == -1; 
+            ok = ok && test.legitMove(testspelplan, 21, 19, dices1, Colors.Black) == -1; 
+            ok = ok && test.legitMove(testspelplan, 19, 21, dices1, Colors.Black) == -1; 
+            ok = ok && test.legitMove(testspelplan, 13, 12, dices1, Colors.Black) == -1; 
 			dices1[0] = 4;
-			ok = ok && test.legitMove(test2, 24, 20, dices1, Colors.Black) == 0;
+			ok = ok && test.legitMove(testspelplan, 24, 20, dices1, Colors.Black) == 0;
  			dices1[1] = 4;
-			ok = ok && test.legitMove(test2, 24, 20, dices1, Colors.Black) == 1; 
+			ok = ok && test.legitMove(testspelplan, 24, 20, dices1, Colors.Black) == 1; 
 			dices1[2] = 4;
-			ok = ok && test.legitMove(test2, 24, 20, dices1, Colors.Black) == 2; 
+			ok = ok && test.legitMove(testspelplan, 24, 20, dices1, Colors.Black) == 2; 
 			dices1[3] = 4;
-			ok = ok && test.legitMove(test2, 24, 20, dices1, Colors.Black) == 3;
+			ok = ok && test.legitMove(testspelplan, 24, 20, dices1, Colors.Black) == 3;
 			dices1[0] = 0;
-			ok = ok && test.legitMove(test2, 24, 20, dices1, Colors.Black) == 3;
+			ok = ok && test.legitMove(testspelplan, 24, 20, dices1, Colors.Black) == 3;
 			dices1[1] = 0;
-			ok = ok && test.legitMove(test2, 24, 20, dices1, Colors.Black) == 3; 
+			ok = ok && test.legitMove(testspelplan, 24, 20, dices1, Colors.Black) == 3; 
 			dices1[2] = 0;
-			ok = ok && test.legitMove(test2, 24, 20, dices1, Colors.Black) == 3; 
+			ok = ok && test.legitMove(testspelplan, 24, 20, dices1, Colors.Black) == 3; 
 			dices1[3] = 0;
-			ok = ok && test.legitMove(test2, 24, 20, dices1, Colors.Black) == -1;
+			ok = ok && test.legitMove(testspelplan, 24, 20, dices1, Colors.Black) == -1;
 			//spela från bar
-			test2[19].antal = 1;
-			ok = ok && test.legitMove(test2, -1, 1, dices1, Colors.Black) == -1;
+			testspelplan[19].antal = 1;
+
 			dices1[0] = 1;
 			dices1[1] = 2;
 			dices1[2] = 3;
 			dices1[3] = 4;
-			ok = ok && test.legitMove(test2, -1, 24, dices1, Colors.Black) == 0;
-			ok = ok && test.legitMove(test2, -1, 23, dices1, Colors.Black) == 1;
-			ok = ok && test.legitMove(test2, -1, 22, dices1, Colors.Black) == 2;
-			ok = ok && test.legitMove(test2, -1, 21, dices1, Colors.Black) == 3;
-			test2[19].antal = 0;
-			ok = ok && test.legitMove(test2, -1, 24, dices1, Colors.Black) == -1;
-			ok = ok && test.legitMove(test2, -1, 23, dices1, Colors.Black) == -1;
-			ok = ok && test.legitMove(test2, -1, 22, dices1, Colors.Black) == -1;
-			ok = ok && test.legitMove(test2, -1, 21, dices1, Colors.Black) == -1;
-			test2[19].antal = 1;
-			test2[25].antal = 2;
-			test2[24].antal = 2;
-			test2[23].antal = 2;
-			test2[22].antal = 2;
-			test2[25].color = Colors.White;
-			test2[24].color = Colors.White;
-			test2[23].color = Colors.White;
-			test2[22].color = Colors.White;
-			ok = ok && test.legitMove(test2, -1, 24, dices1, Colors.Black) == -1;
-			ok = ok && test.legitMove(test2, -1, 23, dices1, Colors.Black) == -1;
-			ok = ok && test.legitMove(test2, -1, 22, dices1, Colors.Black) == -1;
-			ok = ok && test.legitMove(test2, -1, 21, dices1, Colors.Black) == -1;
-			test2 = test.newGame();
+
+			ok = ok && test.legitMove(testspelplan, -1, 1, dices1, Colors.Black) == -1;
+			ok = ok && test.legitMove(testspelplan, -1, 24, dices1, Colors.Black) == 0;
+			ok = ok && test.legitMove(testspelplan, -1, 23, dices1, Colors.Black) == 1;
+			ok = ok && test.legitMove(testspelplan, -1, 22, dices1, Colors.Black) == 2;
+			ok = ok && test.legitMove(testspelplan, -1, 21, dices1, Colors.Black) == 3;
+			testspelplan[19].antal = 0;
+			ok = ok && test.legitMove(testspelplan, -1, 24, dices1, Colors.Black) == -1;
+			ok = ok && test.legitMove(testspelplan, -1, 23, dices1, Colors.Black) == -1;
+			ok = ok && test.legitMove(testspelplan, -1, 22, dices1, Colors.Black) == -1;
+			ok = ok && test.legitMove(testspelplan, -1, 21, dices1, Colors.Black) == -1;
+			testspelplan[19].antal = 1;
+			testspelplan[25].antal = 2;
+			testspelplan[24].antal = 2;
+			testspelplan[23].antal = 2;
+			testspelplan[22].antal = 2;
+			testspelplan[25].color = Colors.White;
+			testspelplan[24].color = Colors.White;
+			testspelplan[23].color = Colors.White;
+			testspelplan[22].color = Colors.White;
+			ok = ok && test.legitMove(testspelplan, -1, 24, dices1, Colors.Black) == -1;
+			ok = ok && test.legitMove(testspelplan, -1, 23, dices1, Colors.Black) == -1;
+			ok = ok && test.legitMove(testspelplan, -1, 22, dices1, Colors.Black) == -1;
+			ok = ok && test.legitMove(testspelplan, -1, 21, dices1, Colors.Black) == -1;
 
 
 			//Spelare White
@@ -449,36 +451,74 @@ namespace BackgammonKonsol
 			dices1[1] = 1;
 			dices1[2] = 0;
 			dices1[3] = 0;
-            ok = ok && test.legitMove(test2, 1, 3, dices1, Colors.White) == 0;  
-            ok = ok && test.legitMove(test2, 8, 10, dices1, Colors.White) == -1; 
-            ok = ok && test.legitMove(test2, 22, 20, dices1, Colors.White) == -1;
-            ok = ok && test.legitMove(test2, 12, 10, dices1, Colors.White) == -1;
-            ok = ok && test.legitMove(test2, 17, 20, dices1, Colors.White) == -1;
+            ok = ok && test.legitMove(testspelplan, 1, 3, dices1, Colors.White) == 0;  
+            ok = ok && test.legitMove(testspelplan, 8, 10, dices1, Colors.White) == -1; 
+            ok = ok && test.legitMove(testspelplan, 22, 20, dices1, Colors.White) == -1;
+            ok = ok && test.legitMove(testspelplan, 12, 10, dices1, Colors.White) == -1;
+            ok = ok && test.legitMove(testspelplan, 17, 20, dices1, Colors.White) == -1;
 			dices1[0] = 4;
-			ok = ok && test.legitMove(test2, 1, 5, dices1, Colors.White) == 0; 
+			ok = ok && test.legitMove(testspelplan, 1, 5, dices1, Colors.White) == 0; 
 			dices1[1] = 4;
-			ok = ok && test.legitMove(test2, 1, 5, dices1, Colors.White) == 1;
+			ok = ok && test.legitMove(testspelplan, 1, 5, dices1, Colors.White) == 1;
 			dices1[2] = 4;
-			ok = ok && test.legitMove(test2, 1, 5, dices1, Colors.White) == 2;
+			ok = ok && test.legitMove(testspelplan, 1, 5, dices1, Colors.White) == 2;
 			dices1[3] = 4;
-			ok = ok && test.legitMove(test2, 1, 5, dices1, Colors.White) == 3;
-			
+			ok = ok && test.legitMove(testspelplan, 1, 5, dices1, Colors.White) == 3;
+			dices1[0] = 0;
+			ok = ok && test.legitMove(testspelplan, 1, 5, dices1, Colors.White) == 3; 
+			dices1[1] = 0;
+			ok = ok && test.legitMove(testspelplan, 1, 5, dices1, Colors.White) == 3;
+			dices1[2] = 0;
+			ok = ok && test.legitMove(testspelplan, 1, 5, dices1, Colors.White) == 3;
+			dices1[3] = 0;
+			ok = ok && test.legitMove(testspelplan, 1, 5, dices1, Colors.White) == -1;
+
+
             //spela från bar
-			test2[6].antal = 1;
+			testspelplan[6].antal = 1;
+			dices1[0] = 1;
+			dices1[1] = 2;
+			dices1[2] = 3;
+			dices1[3] = 4;
+
+			ok = ok && test.legitMove(testspelplan, -1, 24, dices1, Colors.White) == -1;
+			ok = ok && test.legitMove(testspelplan, -1, 1, dices1, Colors.White) == 0;
+			ok = ok && test.legitMove(testspelplan, -1, 2, dices1, Colors.White) == 1;
+			ok = ok && test.legitMove(testspelplan, -1, 3, dices1, Colors.White) == 2;
+			ok = ok && test.legitMove(testspelplan, -1, 4, dices1, Colors.White) == 3;
+			testspelplan[6].antal = 0;
+			ok = ok && test.legitMove(testspelplan, -1, 1, dices1, Colors.White) == -1;
+			ok = ok && test.legitMove(testspelplan, -1, 2, dices1, Colors.White) == -1;
+			ok = ok && test.legitMove(testspelplan, -1, 3, dices1, Colors.White) == -1;
+			ok = ok && test.legitMove(testspelplan, -1, 4, dices1, Colors.White) == -1;
+			testspelplan[6].antal = 1;
+			testspelplan[0].antal = 2;
+			testspelplan[1].antal = 2;
+			testspelplan[2].antal = 2;
+			testspelplan[3].antal = 2;
+			testspelplan[0].color = Colors.Black;
+			testspelplan[1].color = Colors.Black;
+			testspelplan[2].color = Colors.Black;
+			testspelplan[3].color = Colors.Black;
+			ok = ok && test.legitMove(testspelplan, -1, 1, dices1, Colors.White) == -1;
+			ok = ok && test.legitMove(testspelplan, -1, 2, dices1, Colors.White) == -1;
+			ok = ok && test.legitMove(testspelplan, -1, 3, dices1, Colors.White) == -1;
+			ok = ok && test.legitMove(testspelplan, -1, 4, dices1, Colors.White) == -1;
+
 
             System.Diagnostics.Debug.WriteLine("legitMove " + ok);
 
             //Test för legitMoveGoal()
-
+			testspelplan = test.newGame();
             //Spelare Black
 			dices1[0] = 1;
 			dices1[1] = 1;
 			dices1[2] = 1;
 			dices1[3] = 1;
-            ok = ok && test.legitMoveGoal(test2, 5, dices1, Colors.Black) == -1;
+            ok = ok && test.legitMoveGoal(testspelplan, 5, dices1, Colors.Black) == -1;
 
             //Spelare White
-            ok = ok && test.legitMoveGoal(test2, 21, dices1, Colors.White) == -1;
+            ok = ok && test.legitMoveGoal(testspelplan, 21, dices1, Colors.White) == -1;
 
             System.Diagnostics.Debug.WriteLine("legitMoveGoal " + ok);
 
@@ -488,26 +528,27 @@ namespace BackgammonKonsol
                  //  System.Diagnostics.Debug.WriteLine("moveGoal " + ok);
 
             //Test för move()
+			testspelplan = test.newGame();
 
             //Spelare Black
             dices1[0] = 2;
             dices1[1] = 1;
             dices1[2] = 0;
             dices1[3] = 0;
-            ok = ok && test.move(test2, 13, 11, dices1, Colors.Black) == true;
-            ok = ok && test.move(test2, 20, 19, dices1, Colors.Black) == false;
-            ok = ok && test.move(test2, 21, 19, dices1, Colors.Black) == false;
-            ok = ok && test.move(test2, 19, 21, dices1, Colors.Black) == false;
-            ok = ok && test.move(test2, 13, 12, dices1, Colors.Black) == false;
+            ok = ok && test.move(testspelplan, 13, 11, dices1, Colors.Black) == true;
+            ok = ok && test.move(testspelplan, 20, 19, dices1, Colors.Black) == false;
+            ok = ok && test.move(testspelplan, 21, 19, dices1, Colors.Black) == false;
+            ok = ok && test.move(testspelplan, 19, 21, dices1, Colors.Black) == false;
+            ok = ok && test.move(testspelplan, 13, 12, dices1, Colors.Black) == false;
 
             dices1[0] = 4;
-            ok = ok && test.move(test2, 24, 20, dices1, Colors.Black) == true;
+            ok = ok && test.move(testspelplan, 24, 20, dices1, Colors.Black) == true;
             dices1[1] = 4;
-            ok = ok && test.move(test2, 24, 20, dices1, Colors.Black) == true;
+            ok = ok && test.move(testspelplan, 24, 20, dices1, Colors.Black) == true;
          
             //spela från bar
-            test2[19].antal = 1;
-            ok = ok && test.move(test2, -1, 1, dices1, Colors.Black) == false;
+            testspelplan[19].antal = 1;
+            ok = ok && test.move(testspelplan, -1, 1, dices1, Colors.Black) == false;
 
 
             //Spelare White
@@ -515,18 +556,18 @@ namespace BackgammonKonsol
             dices1[1] = 1;
             dices1[2] = 0;
             dices1[3] = 0;
-            ok = ok && test.move(test2, 1, 3, dices1, Colors.White) == true;
-            ok = ok && test.move(test2, 8, 10, dices1, Colors.White) == false;
-            ok = ok && test.move(test2, 22, 20, dices1, Colors.White) == false;
-            ok = ok && test.move(test2, 12, 10, dices1, Colors.White) == false;
-            ok = ok && test.move(test2, 17, 20, dices1, Colors.White) == false;
+            ok = ok && test.move(testspelplan, 1, 3, dices1, Colors.White) == true;
+            ok = ok && test.move(testspelplan, 8, 10, dices1, Colors.White) == false;
+            ok = ok && test.move(testspelplan, 22, 20, dices1, Colors.White) == false;
+            ok = ok && test.move(testspelplan, 12, 10, dices1, Colors.White) == false;
+            ok = ok && test.move(testspelplan, 17, 20, dices1, Colors.White) == false;
             dices1[0] = 4;
-            ok = ok && test.move(test2, 1, 5, dices1, Colors.White) == true;
+            ok = ok && test.move(testspelplan, 1, 5, dices1, Colors.White) == true;
             dices1[1] = 4;
    
             //spela från bar
-            test2[6].antal = 1;
-            ok = ok && test.move(test2, -1, 21, dices1, Colors.White) == false;
+            testspelplan[6].antal = 1;
+            ok = ok && test.move(testspelplan, -1, 21, dices1, Colors.White) == false;
 
             System.Diagnostics.Debug.WriteLine("move " + ok);
 
