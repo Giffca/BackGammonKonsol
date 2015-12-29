@@ -415,6 +415,34 @@ namespace BackgammonKonsol
 			//spela från bar
 			test2[19].antal = 1;
 			ok = ok && test.legitMove(test2, -1, 1, dices1, Colors.Black) == -1;
+			dices1[0] = 1;
+			dices1[1] = 2;
+			dices1[2] = 3;
+			dices1[3] = 4;
+			ok = ok && test.legitMove(test2, -1, 24, dices1, Colors.Black) == 0;
+			ok = ok && test.legitMove(test2, -1, 23, dices1, Colors.Black) == 1;
+			ok = ok && test.legitMove(test2, -1, 22, dices1, Colors.Black) == 2;
+			ok = ok && test.legitMove(test2, -1, 21, dices1, Colors.Black) == 3;
+			test2[19].antal = 0;
+			ok = ok && test.legitMove(test2, -1, 24, dices1, Colors.Black) == -1;
+			ok = ok && test.legitMove(test2, -1, 23, dices1, Colors.Black) == -1;
+			ok = ok && test.legitMove(test2, -1, 22, dices1, Colors.Black) == -1;
+			ok = ok && test.legitMove(test2, -1, 21, dices1, Colors.Black) == -1;
+			test2[19].antal = 1;
+			test2[25].antal = 2;
+			test2[24].antal = 2;
+			test2[23].antal = 2;
+			test2[22].antal = 2;
+			test2[25].color = Colors.White;
+			test2[24].color = Colors.White;
+			test2[23].color = Colors.White;
+			test2[22].color = Colors.White;
+			ok = ok && test.legitMove(test2, -1, 24, dices1, Colors.Black) == -1;
+			ok = ok && test.legitMove(test2, -1, 23, dices1, Colors.Black) == -1;
+			ok = ok && test.legitMove(test2, -1, 22, dices1, Colors.Black) == -1;
+			ok = ok && test.legitMove(test2, -1, 21, dices1, Colors.Black) == -1;
+			test2 = test.newGame();
+
 
 			//Spelare White
 			dices1[0] = 2;
@@ -437,7 +465,6 @@ namespace BackgammonKonsol
 			
             //spela från bar
 			test2[6].antal = 1;
-			ok = ok && test.legitMove(test2, -1, 21, dices1, Colors.Black) == 3;
 
             System.Diagnostics.Debug.WriteLine("legitMove " + ok);
 
