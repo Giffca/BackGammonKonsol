@@ -235,7 +235,7 @@ namespace BackgammonKonsol
 				{
 				for(int i=5; i>=0; i--)
 					{
-					if(spelplan[i].antal == 0 || spelplan[i].color == Colors.Black)
+					if(spelplan[i].antal == 0 || spelplan[i].color == Colors.White)
 						{
 						for(int j = 0; j<4;j++)
 							{
@@ -425,7 +425,7 @@ namespace BackgammonKonsol
             ok = ok && test.legitMove(test2, 8, 10, dices1, Colors.White) == -1; 
             ok = ok && test.legitMove(test2, 22, 20, dices1, Colors.White) == -1;
             ok = ok && test.legitMove(test2, 12, 10, dices1, Colors.White) == -1;
-            ok = ok && test.legitMove(test2, 17, 20, dices1, Colors.Black) == -1;
+            ok = ok && test.legitMove(test2, 17, 20, dices1, Colors.White) == -1;
 			dices1[0] = 4;
 			ok = ok && test.legitMove(test2, 1, 5, dices1, Colors.White) == 0; 
 			dices1[1] = 4;
@@ -434,7 +434,8 @@ namespace BackgammonKonsol
 			ok = ok && test.legitMove(test2, 1, 5, dices1, Colors.White) == 2;
 			dices1[3] = 4;
 			ok = ok && test.legitMove(test2, 1, 5, dices1, Colors.White) == 3;
-			//spela från bar
+			
+            //spela från bar
 			test2[6].antal = 1;
 			ok = ok && test.legitMove(test2, -1, 21, dices1, Colors.Black) == 3;
 
@@ -457,9 +458,50 @@ namespace BackgammonKonsol
 
             //Test för moveGoal()
 
+                 //  System.Diagnostics.Debug.WriteLine("moveGoal " + ok);
 
             //Test för move()
 
+            //Spelare Black
+            dices1[0] = 2;
+            dices1[1] = 1;
+            dices1[2] = 0;
+            dices1[3] = 0;
+            ok = ok && test.move(test2, 13, 11, dices1, Colors.Black) == true;
+            ok = ok && test.move(test2, 20, 19, dices1, Colors.Black) == false;
+            ok = ok && test.move(test2, 21, 19, dices1, Colors.Black) == false;
+            ok = ok && test.move(test2, 19, 21, dices1, Colors.Black) == false;
+            ok = ok && test.move(test2, 13, 12, dices1, Colors.Black) == false;
+
+            dices1[0] = 4;
+            ok = ok && test.move(test2, 24, 20, dices1, Colors.Black) == true;
+            dices1[1] = 4;
+            ok = ok && test.move(test2, 24, 20, dices1, Colors.Black) == true;
+         
+            //spela från bar
+            test2[19].antal = 1;
+            ok = ok && test.move(test2, -1, 1, dices1, Colors.Black) == false;
+
+
+            //Spelare White
+            dices1[0] = 2;
+            dices1[1] = 1;
+            dices1[2] = 0;
+            dices1[3] = 0;
+            ok = ok && test.move(test2, 1, 3, dices1, Colors.White) == true;
+            ok = ok && test.move(test2, 8, 10, dices1, Colors.White) == false;
+            ok = ok && test.move(test2, 22, 20, dices1, Colors.White) == false;
+            ok = ok && test.move(test2, 12, 10, dices1, Colors.White) == false;
+            ok = ok && test.move(test2, 17, 20, dices1, Colors.White) == false;
+            dices1[0] = 4;
+            ok = ok && test.move(test2, 1, 5, dices1, Colors.White) == true;
+            dices1[1] = 4;
+   
+            //spela från bar
+            test2[6].antal = 1;
+            ok = ok && test.move(test2, -1, 21, dices1, Colors.White) == false;
+
+            System.Diagnostics.Debug.WriteLine("move " + ok);
 
             //Test för canMove()
             return ok;
