@@ -214,7 +214,7 @@ namespace BackgammonKonsol
 		{
 			int[] dice = new int [4];
 			for(int i = 0; i<4;i++) dice[i] = dices[i];
-
+			int index = -1;
 			if(spelare==Colors.White)
 				{
 				for(int i=20; i<=25; i++)
@@ -228,7 +228,7 @@ namespace BackgammonKonsol
 						}
 					else break;
 					}
-				for(int i=0;i<dice.Length;i++) if (dice[i]+first == 25) return i;
+				for(int i=0;i<dice.Length;i++) if (dice[i]+first == 25) index = i;
 				}
 
 			if(spelare==Colors.Black)
@@ -244,13 +244,13 @@ namespace BackgammonKonsol
 						}
 					else break;
 					}
-				for(int i=0;i<dice.Length;i++) if (first-dice[i] == 0) return i;
+				for(int i=0;i<dice.Length;i++) if (first-dice[i] == 0) index = i;
 				}
 
 
 			
 
-			return -1;
+			return index;
 		}
 
 
@@ -357,19 +357,11 @@ namespace BackgammonKonsol
 
 			Triangel[] testspelplan = new Triangel[5];
 
- 			testspelplan[0].antal = 1;
-			testspelplan[1].antal = 1;
-			testspelplan[2].antal = 1;
-			testspelplan[3].antal = 1;
-			testspelplan[4].antal = 1;
+			for(int i = 0; i<5;i++) testspelplan[i].antal = 1;
 
 			testspelplan = test.newGame();
 
-			ok = ok && testspelplan[0].antal != 1;
-			ok = ok && testspelplan[1].antal != 1;
-			ok = ok && testspelplan[2].antal != 1;
-			ok = ok && testspelplan[3].antal != 1;
-			ok = ok && testspelplan[4].antal != 1;
+			for(int i = 0; i<5;i++) ok = ok && testspelplan[i].antal != 1;
 			ok = ok && testspelplan.Length==26;
 
 			System.Diagnostics.Debug.WriteLine("newGame " + ok);
@@ -416,10 +408,7 @@ namespace BackgammonKonsol
 			//spela från bar
 			testspelplan[19].antal = 1;
 
-			dices1[0] = 1;
-			dices1[1] = 2;
-			dices1[2] = 3;
-			dices1[3] = 4;
+			for(int i = 0; i<4;i++) dices1[i] = i+1;
 
 			ok = ok && test.legitMove(testspelplan, -1, 1, dices1, Colors.Black) == -1;
 			ok = ok && test.legitMove(testspelplan, -1, 24, dices1, Colors.Black) == 0;
@@ -432,18 +421,15 @@ namespace BackgammonKonsol
 			ok = ok && test.legitMove(testspelplan, -1, 22, dices1, Colors.Black) == -1;
 			ok = ok && test.legitMove(testspelplan, -1, 21, dices1, Colors.Black) == -1;
 			testspelplan[19].antal = 1;
-			testspelplan[25].antal = 2;
-			testspelplan[24].antal = 2;
-			testspelplan[23].antal = 2;
-			testspelplan[22].antal = 2;
-			testspelplan[25].color = Colors.White;
-			testspelplan[24].color = Colors.White;
-			testspelplan[23].color = Colors.White;
-			testspelplan[22].color = Colors.White;
-			ok = ok && test.legitMove(testspelplan, -1, 24, dices1, Colors.Black) == -1;
-			ok = ok && test.legitMove(testspelplan, -1, 23, dices1, Colors.Black) == -1;
-			ok = ok && test.legitMove(testspelplan, -1, 22, dices1, Colors.Black) == -1;
-			ok = ok && test.legitMove(testspelplan, -1, 21, dices1, Colors.Black) == -1;
+
+			for(int i = 25; i>21;i--) 
+			{
+				testspelplan[i].antal = 2;
+				testspelplan[i].color = Colors.White;
+				ok = ok && test.legitMove(testspelplan, -1, i-1, dices1, Colors.Black) == -1;
+			}
+
+	
 
 
 			//Spelare White
@@ -476,56 +462,66 @@ namespace BackgammonKonsol
 
             //spela från bar
 			testspelplan[6].antal = 1;
-			dices1[0] = 1;
-			dices1[1] = 2;
-			dices1[2] = 3;
-			dices1[3] = 4;
+
+			for(int i = 0; i<4;i++) dices1[i] = i+1;
 
 			ok = ok && test.legitMove(testspelplan, -1, 24, dices1, Colors.White) == -1;
-			ok = ok && test.legitMove(testspelplan, -1, 1, dices1, Colors.White) == 0;
-			ok = ok && test.legitMove(testspelplan, -1, 2, dices1, Colors.White) == 1;
-			ok = ok && test.legitMove(testspelplan, -1, 3, dices1, Colors.White) == 2;
-			ok = ok && test.legitMove(testspelplan, -1, 4, dices1, Colors.White) == 3;
+
+			for (int i = 0; i < 4; i++)
+			{
+				ok = ok && test.legitMove(testspelplan, -1, i + 1, dices1, Colors.White) == i;
+			}
+
 			testspelplan[6].antal = 0;
-			ok = ok && test.legitMove(testspelplan, -1, 1, dices1, Colors.White) == -1;
-			ok = ok && test.legitMove(testspelplan, -1, 2, dices1, Colors.White) == -1;
-			ok = ok && test.legitMove(testspelplan, -1, 3, dices1, Colors.White) == -1;
-			ok = ok && test.legitMove(testspelplan, -1, 4, dices1, Colors.White) == -1;
+
+			for (int i = 0; i < 4; i++)
+			{
+				ok = ok && test.legitMove(testspelplan, -1, i + 1, dices1, Colors.White) == -1;
+			}
+
 			testspelplan[6].antal = 1;
-			testspelplan[0].antal = 2;
-			testspelplan[1].antal = 2;
-			testspelplan[2].antal = 2;
-			testspelplan[3].antal = 2;
-			testspelplan[0].color = Colors.Black;
-			testspelplan[1].color = Colors.Black;
-			testspelplan[2].color = Colors.Black;
-			testspelplan[3].color = Colors.Black;
-			ok = ok && test.legitMove(testspelplan, -1, 1, dices1, Colors.White) == -1;
-			ok = ok && test.legitMove(testspelplan, -1, 2, dices1, Colors.White) == -1;
-			ok = ok && test.legitMove(testspelplan, -1, 3, dices1, Colors.White) == -1;
-			ok = ok && test.legitMove(testspelplan, -1, 4, dices1, Colors.White) == -1;
+
+			for (int i = 0; i < 4; i++)
+			{
+				testspelplan[i].antal = 2;
+				testspelplan[i].color = Colors.Black;
+				ok = ok && test.legitMove(testspelplan, -1, i + 1, dices1, Colors.White) == -1;
+			}
+
 
 
             System.Diagnostics.Debug.WriteLine("legitMove " + ok);
 
             //Test för legitMoveGoal()
-			testspelplan = test.newGame();
-            //Spelare Black
-			dices1[0] = 1;
-			dices1[1] = 1;
-			dices1[2] = 1;
-			dices1[3] = 1;
-            ok = ok && test.legitMoveGoal(testspelplan, 5, dices1, Colors.Black) == -1;
+			
+			testspelplan = new Triangel[26];
+			testspelplan[25].antal = 1;
+			testspelplan[25].color = Colors.White;
+			testspelplan[0].antal = 1;
+			testspelplan[0].color = Colors.Black;
+			for(int i = 0; i<4;i++) dices1[i] = 6;
+			ok = ok && test.legitMoveGoal(testspelplan,24,dices1,Colors.White) == 3;
+			ok = ok && test.legitMoveGoal(testspelplan,1,dices1,Colors.Black) == 3;
+			ok = ok && test.legitMoveGoal(testspelplan,24,dices1,Colors.White) == 3;
+			ok = ok && test.legitMoveGoal(testspelplan,1,dices1,Colors.Black) == 3;
 
-            //Spelare White
-            ok = ok && test.legitMoveGoal(testspelplan, 21, dices1, Colors.White) == -1;
 
             System.Diagnostics.Debug.WriteLine("legitMoveGoal " + ok);
 
 
             //Test för moveGoal()
 
-                 //  System.Diagnostics.Debug.WriteLine("moveGoal " + ok);
+			testspelplan = new Triangel[26];
+			testspelplan[25].antal = 1;
+			testspelplan[25].color = Colors.White;
+			testspelplan[0].antal = 1;
+			testspelplan[0].color = Colors.Black;
+			for(int i = 0; i<4;i++) dices1[i] = 6;
+			ok = ok && test.moveGoal(testspelplan,24,dices1,Colors.White) == true;
+			ok = ok && test.moveGoal(testspelplan,1,dices1,Colors.Black) == true;
+			ok = ok && test.moveGoal(testspelplan,24,dices1,Colors.White) == false;
+			ok = ok && test.moveGoal(testspelplan,1,dices1,Colors.Black) == false;
+            System.Diagnostics.Debug.WriteLine("moveGoal " + ok);
 
             //Test för move()
 			testspelplan = test.newGame();
