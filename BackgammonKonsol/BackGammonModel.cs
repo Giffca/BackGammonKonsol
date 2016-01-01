@@ -64,7 +64,7 @@ namespace BackgammonKonsol
            return spelplan;
 		}
 
-		// 90% inte testat efter bugs.
+		// 100%
         public int canMove(Triangel[] spelplan, Colors spelare, int[] dices)
 		{
 			if (spelare == Colors.White)
@@ -156,7 +156,16 @@ namespace BackgammonKonsol
 			return 0;
 		}
 
+		//Funktion som tar reda på alla möjliga moves för alla olika trianglar.
+		// 1%
+		public int [,] allAvailableMoves(Triangel[] spelplan, int[] dices, Colors spelare)
+		{
+			int [,] moves = new int [26,2];
 
+			moves[0,0] = 1;
+
+			return moves;
+		}
 
 		//flyttar en bricka.
 		// 100%
@@ -191,7 +200,7 @@ namespace BackgammonKonsol
 		}
 
 		//funktion som används när man försöker gå i mål.
-		// 90% inte testat bugs
+		// 100%
 		public bool moveGoal(Triangel[] spelplan, int first,int[] dices,Colors spelare)
 		{
 			int index = legitMoveGoal(spelplan,first,dices,spelare);
@@ -209,7 +218,7 @@ namespace BackgammonKonsol
 
 
 		//funktion som kollar om man kan gå i mål.
-		// 90% inte testat bugs
+		// 100%
 		private int legitMoveGoal(Triangel[] spelplan, int first, int[] dices, Colors spelare)
 		{
 			int[] dice = new int [4];
