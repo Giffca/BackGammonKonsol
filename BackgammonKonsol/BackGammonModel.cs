@@ -321,7 +321,10 @@ namespace BackgammonKonsol
 		{
 			if (spelplanPos > 0 && spelplanPos <= 6) return spelplanPos-1;
 			if (spelplanPos > 6 && spelplanPos <= 18) return spelplanPos;
-			else return spelplanPos+1;
+			if (spelplanPos > 18 && spelplanPos <= 24) return spelplanPos+1;
+			if(spelplanPos == 25) return 6;
+			if(spelplanPos == 26) return 19;
+			else return spelplanPos;
 		}
 
 
