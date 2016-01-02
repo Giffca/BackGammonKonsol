@@ -363,7 +363,6 @@ namespace BackgammonKonsol
 
 			// Test för newGame()
 			//
-
 			Triangel[] testspelplan = new Triangel[5];
 
 			for(int i = 0; i<5;i++) testspelplan[i].antal = 1;
@@ -577,6 +576,23 @@ namespace BackgammonKonsol
             System.Diagnostics.Debug.WriteLine("move " + ok);
 
             //Test för canMove()
+            //
+            testspelplan = test.newGame();
+
+            //spelare Black
+            ok = ok && test.canMove(testspelplan, Colors.Black, dices1) == 1;
+            testspelplan[19].antal = 1;
+            for (int i = 0; i < 4; i++) dices1[i] = i + 1;
+            ok = ok && test.canMove(testspelplan, Colors.Black, dices1) == -1;
+        
+
+            //spelare White
+            ok = ok && test.canMove(testspelplan, Colors.White, dices1) == 1;
+            testspelplan[6].antal = 1;
+            for (int i = 0; i < 4; i++) dices1[i] = i + 1;
+            ok = ok && test.canMove(testspelplan, Colors.Black, dices1) == -1;
+
+            System.Diagnostics.Debug.WriteLine("canMove " + ok);
             return ok;
 		}
 
