@@ -171,6 +171,7 @@ namespace BackgammonKonsol
 		// 100%
 		public bool move(Triangel[] spelplan, int first, int second, int[] dices,Colors spelare)
 		{
+			if(first == 25 || first == 26) first = -1;
 			int index = legitMove(spelplan,first,second, dices, spelare);
 			if(index != -1)
 			{
