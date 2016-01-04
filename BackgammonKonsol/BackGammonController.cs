@@ -20,11 +20,11 @@ namespace BackgammonKonsol
 		_model = new BackGammonModel();
 		_vy = new BackGammonConsoleView();
 
-		    Triangel [] spelplan = _model.newGame();
+		    triangel [] spelplan = _model.newGame();
 			int player1checkers = 15;
 			int player2checkers = 15;
 
-			Colors spelare = Colors.White;
+			COLOR spelare = COLOR.WHITE;
 
 			while(true)
 			{
@@ -62,7 +62,7 @@ namespace BackgammonKonsol
 							{
 							if(_model.moveGoal(spelplan,first,dices,spelare))
 								{
- 								if(spelare == Colors.White) player1checkers--;
+ 								if(spelare == COLOR.WHITE) player1checkers--;
 								else player2checkers--;
 								}
 
@@ -91,8 +91,8 @@ namespace BackgammonKonsol
 
 				Console.Write("Nästa spelares turn");
 				Console.ReadLine();
-				if(spelare == Colors.White) spelare = Colors.Black;
-				else spelare = Colors.White;
+				if(spelare == COLOR.WHITE) spelare = COLOR.BLACK;
+				else spelare = COLOR.WHITE;
 			}
 			Console.ReadLine();
 			

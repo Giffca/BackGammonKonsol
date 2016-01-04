@@ -12,7 +12,7 @@ namespace BackgammonKonsol
 
 		// Skriver ut spelplanen
 		// 99%  inte så viktigt, ska ändå inte exporteras.
-		public void drawBoard(Triangel[] spelplan)
+		public void drawBoard(triangel[] spelplan)
 		{
 			if (spelplan.Length != 26) return;
 			Console.Clear();
@@ -50,7 +50,7 @@ namespace BackgammonKonsol
 						{
 							if (spelplan[j].antal > i)
 							{
-								if (spelplan[j].color == Colors.Black) Console.Write(" @  |");
+								if (spelplan[j].color == COLOR.BLACK) Console.Write(" @  |");
 								else Console.Write("  O |");
 							}
 							else Console.Write("    |");
@@ -59,7 +59,7 @@ namespace BackgammonKonsol
 						{
 							if (spelplan[j].antal > i)
 							{
-								if (spelplan[j].color == Colors.Black) Console.Write(" @  ");
+								if (spelplan[j].color == COLOR.BLACK) Console.Write(" @  ");
 								else Console.Write(" O  ");
 							}
 							else Console.Write("    ");
@@ -93,7 +93,7 @@ namespace BackgammonKonsol
 
 							if (spelplan[l].antal > 10 - i)
 							{
-								if (spelplan[l].color == Colors.Black) Console.Write(" @  |");
+								if (spelplan[l].color == COLOR.BLACK) Console.Write(" @  |");
 								else Console.Write(" O  |");
 							}
 							else Console.Write("    |");
@@ -102,7 +102,7 @@ namespace BackgammonKonsol
 						{
 							if (spelplan[l].antal > 10 - i)
 							{
-								if (spelplan[l].color == Colors.Black) Console.Write(" @  ");
+								if (spelplan[l].color == COLOR.BLACK) Console.Write(" @  ");
 								else Console.Write(" O  ");
 							}
 							else Console.Write("    ");
