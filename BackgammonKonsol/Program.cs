@@ -4,14 +4,14 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace BackgammonKonsol
+namespace Backgammon
 {
 	class Program
 	{
 		static void Main(string[] args)
 		{
-			BackGammonController c = new BackGammonController();
-			BackGammonModel.SelfTest();
+			BackgammonController c = new BackgammonController();
+			BackgammonModel.SelfTest();
 			c.PlayGame();
 		}
 	}

@@ -1,10 +1,16 @@
-﻿using System;
+﻿//
+//	Programmerare:  Timmy & Victoria
+//	Datum:	2015-2016
+//	Beskrivning: Model fil till Backgammon spelet
+//
+
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace BackgammonKonsol
+namespace Backgammon
 {
 
 	enum COLOR
@@ -20,12 +26,13 @@ namespace BackgammonKonsol
 	}
 
 
-	class BackGammonModel
+	class BackgammonModel
 	{
 		private Random rnd = new Random();
 
 
-		// 100%
+		// Slå tärning
+		// returnar int array [4]
 		public int[] letsRollTheDice()
 		{
 			int[] dices = new int[4];
@@ -36,7 +43,8 @@ namespace BackgammonKonsol
 			return dices;
 		}
 
-		// 100% 
+		// Lägger ut startbrickor för ett nytt spel
+		// returnar triangel array [26]
 		public triangel[] newGame()
 		{
             triangel[] spelplan = new triangel[26];
@@ -63,7 +71,8 @@ namespace BackgammonKonsol
            return spelplan;
 		}
 
-		// 100%
+		//kollar om man kan flytta en bricka
+		// returnar -1 om man kan gå från baren, 1 om man kan flytta bland trianglarna, 2 om man kan gå i mål, -1 om man inte kan flytta något.
         public int canMove(triangel[] spelplan, COLOR spelare, int[] dices)
 		{
 			if (spelare == COLOR.WHITE)
@@ -156,7 +165,7 @@ namespace BackgammonKonsol
 		}
 
 		//Funktion som tar reda på alla möjliga moves för alla olika trianglar.
-		// 1%
+		// inte gjord
 		public int [,] allAvailableMoves(triangel[] spelplan, int[] dices, COLOR spelare)
 		{
 			int [,] moves = new int [26,2];
@@ -166,8 +175,8 @@ namespace BackgammonKonsol
 			return moves;
 		}
 
-		//flyttar en bricka.
-		// 100%
+		// Flyttar en bricka.
+		// returnar true om det gick, annars false.
 		public bool move(triangel[] spelplan, int first, int second, int[] dices,COLOR spelare)
 		{
 			if(first == 25 || first == 26) first = -1;
@@ -199,8 +208,8 @@ namespace BackgammonKonsol
 			return false;
 		}
 
-		//funktion som används när man försöker gå i mål.
-		// 100%
+		// Tar bort bricka från spelplanen (går i mål)
+		// returnar true om det gick, annars false.
 		public bool moveGoal(triangel[] spelplan, int first,int[] dices,COLOR spelare)
 		{
 			int index = legitMoveGoal(spelplan,first,dices,spelare);
@@ -217,8 +226,8 @@ namespace BackgammonKonsol
 
 
 
-		//funktion som kollar om man kan gå i mål.
-		// 100%
+		// privat funktion som kollar om man kan gå i mål.
+		// returnar int, index till tärning om det går annars -1.
 		private int legitMoveGoal(triangel[] spelplan, int first, int[] dices, COLOR spelare)
 		{
 			int[] dice = new int [4];
@@ -263,8 +272,8 @@ namespace BackgammonKonsol
 		}
 
 
-		//privat funktion som kollar om man kan flytta brickan.
-		// 100%
+		// privat funktion som kollar om man kan flytta brickan.
+		// returnar int, index till tärning om det går annars -1.
 		private int legitMove(triangel[] spelplan, int first, int second, int[] dices, COLOR spelare)
 		{
 			int langd;
@@ -315,9 +324,9 @@ namespace BackgammonKonsol
 
 
 
-		//privat funktion som rättar vald plats till elementets plats i arrayen.
-		// 100%
-		private int correctPos(int spelplanPos)
+		// Funktion som rättar vald plats till elementets plats i arrayen.
+		// returnar int, arrayets index för inskickad triangel position.
+		public int correctPos(int spelplanPos)
 		{
 			if (spelplanPos > 0 && spelplanPos <= 6) return spelplanPos-1;
 			if (spelplanPos > 6 && spelplanPos <= 18) return spelplanPos;
@@ -329,11 +338,10 @@ namespace BackgammonKonsol
 
 
 		//SelfTest
-		// 100%
 		public static bool SelfTest()
 		{
 			bool ok = true;
-			BackGammonModel test = new BackGammonModel();
+			BackgammonModel test = new BackgammonModel();
 
 
 			// Test för Triangel Struct

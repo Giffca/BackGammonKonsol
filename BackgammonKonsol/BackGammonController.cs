@@ -4,12 +4,12 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace BackgammonKonsol
+namespace Backgammon
 {
-	class BackGammonController
+	class BackgammonController
 	{
-		private BackGammonModel _model;
-		private BackGammonConsoleView _vy;
+		private BackgammonModel _model;
+		private BackgammonConsoleView _vy;
 
 
 		//spelar spelet
@@ -17,8 +17,8 @@ namespace BackgammonKonsol
 		public void PlayGame()
 		{
 		Console.ForegroundColor = ConsoleColor.White;
-		_model = new BackGammonModel();
-		_vy = new BackGammonConsoleView();
+		_model = new BackgammonModel();
+		_vy = new BackgammonConsoleView();
 
 		    triangel [] spelplan = _model.newGame();
 			int player1checkers = 15;

@@ -4,9 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace BackgammonKonsol
+namespace Backgammon
 {
-	class BackGammonConsoleView
+	class BackgammonConsoleView
 	{
 
 
