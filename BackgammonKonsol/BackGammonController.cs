@@ -24,7 +24,7 @@ namespace Backgammon
 			int player1checkers = 15;
 			int player2checkers = 15;
 
-			COLOR spelare = COLOR.WHITE;
+			player spelare = player.one;
 
 			while(true)
 			{
@@ -62,7 +62,7 @@ namespace Backgammon
 							{
 							if(_model.moveGoal(spelplan,first,dices,spelare))
 								{
- 								if(spelare == COLOR.WHITE) player1checkers--;
+ 								if(spelare == player.one) player1checkers--;
 								else player2checkers--;
 								}
 
@@ -91,8 +91,8 @@ namespace Backgammon
 
 				Console.Write("Nästa spelares turn");
 				Console.ReadLine();
-				if(spelare == COLOR.WHITE) spelare = COLOR.BLACK;
-				else spelare = COLOR.WHITE;
+				if(spelare == player.one) spelare = player.two;
+				else spelare = player.one;
 			}
 			Console.ReadLine();
 			

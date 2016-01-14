@@ -50,7 +50,7 @@ namespace Backgammon
 						{
 							if (spelplan[j].antal > i)
 							{
-								if (spelplan[j].color == COLOR.BLACK) Console.Write(" @  |");
+								if (spelplan[j].color == player.two) Console.Write(" @  |");
 								else Console.Write("  O |");
 							}
 							else Console.Write("    |");
@@ -59,7 +59,7 @@ namespace Backgammon
 						{
 							if (spelplan[j].antal > i)
 							{
-								if (spelplan[j].color == COLOR.BLACK) Console.Write(" @  ");
+								if (spelplan[j].color == player.two) Console.Write(" @  ");
 								else Console.Write(" O  ");
 							}
 							else Console.Write("    ");
@@ -93,7 +93,7 @@ namespace Backgammon
 
 							if (spelplan[l].antal > 10 - i)
 							{
-								if (spelplan[l].color == COLOR.BLACK) Console.Write(" @  |");
+								if (spelplan[l].color == player.two) Console.Write(" @  |");
 								else Console.Write(" O  |");
 							}
 							else Console.Write("    |");
@@ -102,7 +102,7 @@ namespace Backgammon
 						{
 							if (spelplan[l].antal > 10 - i)
 							{
-								if (spelplan[l].color == COLOR.BLACK) Console.Write(" @  ");
+								if (spelplan[l].color == player.two) Console.Write(" @  ");
 								else Console.Write(" O  ");
 							}
 							else Console.Write("    ");
