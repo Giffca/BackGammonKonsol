@@ -166,11 +166,11 @@ namespace Backgammon
 
 		//Funktion som tar reda på alla möjliga moves för alla olika trianglar.
 		// inte gjord
-		public int [,] allAvailableMoves(triangel[] spelplan, int[] dices, player spelare)
+		public List<int>[] allAvailableMoves(triangel[] spelplan, int[] dices, player spelare)
 		{
-			int [,] moves = new int [26,2];
+			List<int>[] moves = new List<int>[26];
 
-			moves[0,0] = 1;
+
 
 			return moves;
 		}
