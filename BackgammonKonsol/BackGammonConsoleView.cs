@@ -25,7 +25,7 @@ namespace Backgammon
 				else 
 				{
 					Console.WriteLine("|\t\t\t |     |\t\t\t |");
-					Console.Write("|");
+					Console.Write("|\t\t\t |     |\t\t\t |");
 				}
 				
 
@@ -50,8 +50,17 @@ namespace Backgammon
 						{
 							if (spelplan[j].antal > i)
 							{
-								if (spelplan[j].color == player.two) Console.Write(" @  |");
-								else Console.Write("  O |");
+								if (spelplan[j].color == player.two) 
+								{
+									if(i == 4 && spelplan[j].antal > 5) Console.Write(" " +spelplan[j].antal+"  |");
+									else Console.Write(" @  |");
+									
+								}
+								else 
+								{
+									if(i == 4 && spelplan[j].antal > 5) Console.Write(" "+ spelplan[j].antal+"  |");
+									else Console.Write(" O  |");
+								}
 							}
 							else Console.Write("    |");
 						}
@@ -59,8 +68,17 @@ namespace Backgammon
 						{
 							if (spelplan[j].antal > i)
 							{
-								if (spelplan[j].color == player.two) Console.Write(" @  ");
-								else Console.Write(" O  ");
+								if (spelplan[j].color == player.two) 
+								{
+									if(i == 4 && spelplan[j].antal > 5) Console.Write(" " +spelplan[j].antal+"  ");
+									else Console.Write(" @  ");
+								}
+								
+								else
+								{
+									if(i == 4 && spelplan[j].antal > 5) Console.Write(" " +spelplan[j].antal+"  ");
+									else Console.Write(" O  ");
+								}
 							}
 							else Console.Write("    ");
 						}
@@ -71,7 +89,7 @@ namespace Backgammon
 				}
 				
 
-				if (i > 4 && i < 11)
+				if (i > 5 && i < 11)
 				{
 
 					for (int j = 0; j < 13; j++)
@@ -93,8 +111,16 @@ namespace Backgammon
 
 							if (spelplan[l].antal > 10 - i)
 							{
-								if (spelplan[l].color == player.two) Console.Write(" @  |");
-								else Console.Write(" O  |");
+								if (spelplan[l].color == player.two) 
+								{
+									if(i == 6 && spelplan[l].antal > 5) Console.Write(" " +spelplan[l].antal+"  |");
+									else Console.Write(" @  |");
+								}
+								else 
+								{
+									if(i == 6 && spelplan[l].antal > 5) Console.Write(" " +spelplan[l].antal+"  |");
+									else Console.Write(" O  |");
+								}
 							}
 							else Console.Write("    |");
 						}
@@ -102,8 +128,17 @@ namespace Backgammon
 						{
 							if (spelplan[l].antal > 10 - i)
 							{
-								if (spelplan[l].color == player.two) Console.Write(" @  ");
-								else Console.Write(" O  ");
+								if (spelplan[l].color == player.two) 
+								{
+									if(i == 6 && spelplan[l].antal > 5) Console.Write(" "+spelplan[l].antal+"  ");
+									else Console.Write(" @  ");
+								}
+								else
+								{
+									if(i == 6 && spelplan[l].antal > 5) Console.Write(" "+spelplan[l].antal+"  ");
+									else Console.Write(" O  ");
+								}
+									
 							}
 							else Console.Write("    ");
 						}

@@ -1,7 +1,7 @@
 ﻿//
 //	Programmerare:  Timmy & Victoria
-//	Datum:	2015-2016
-//	Beskrivning: Model fil till Backgammon spelet
+//	Datum:			2015-2016
+//	Beskrivning:	Model fil till Backgammon spelet
 //
 
 using System;
@@ -13,13 +13,13 @@ using System.Threading.Tasks;
 namespace Backgammon
 {
 
-	enum player
+	public enum player
 	{
 		one,
 		two 
 	};
 
-	struct triangel  
+	public struct triangel  
 	{
 		public int antal;
 		public player color;
@@ -39,7 +39,6 @@ namespace Backgammon
 			dices[0] = rnd.Next(1, 7);
 			dices[1] = rnd.Next(1, 7);
 			if (dices[0] == dices[1]) dices[3] = dices[2] = dices[1];
-
 			return dices;
 		}
 
@@ -70,6 +69,64 @@ namespace Backgammon
 
            return spelplan;
 		}
+
+        //En funktion för att ta spelet till slutläge
+        public triangel[] endGame()
+        {
+            triangel[] spelplan = new triangel[26];
+            spelplan[0].antal = 7;
+            spelplan[0].color = player.two;
+            spelplan[1].antal = 1;
+            spelplan[1].color = player.two;
+            spelplan[2].color = player.two;
+            spelplan[2].antal = 2;
+            spelplan[3].color = player.two;
+            spelplan[3].antal = 3;
+            spelplan[4].color = player.two;
+            spelplan[4].antal = 1;
+            spelplan[5].color = player.two;
+            spelplan[5].antal = 1;                
+            spelplan[20].antal = 1;
+            spelplan[20].color = player.one;
+            spelplan[22].antal = 6;
+            spelplan[22].color = player.one;
+            spelplan[25].antal = 8;
+            spelplan[25].color = player.one;            
+            return spelplan;
+        }
+
+        //En funktion för att illustrera hur det ser ut när det är staplat många på brickor på samma triangel
+        public triangel[] highStack()
+        {
+            triangel[] spelplan = new triangel[26];
+            spelplan[16].antal = 8;
+            spelplan[16].color = player.one;
+            spelplan[22].antal = 3;
+            spelplan[22].color = player.one;
+            spelplan[23].antal = 4;
+            spelplan[23].color = player.one;
+            spelplan[4].antal = 12;
+            spelplan[4].color = player.two;
+            spelplan[3].antal = 3;
+            spelplan[3].color = player.two;
+            return spelplan;
+        }
+
+        public triangel[] bricksInMiddle()
+        {
+            triangel[] spelplan = new triangel[26];
+
+			spelplan[6].antal = 1;
+			spelplan[6].color = player.one;
+            
+            spelplan[19].antal = 1;
+            spelplan[19].color = player.two;
+
+            return spelplan;
+        }
+
+
+
 
 		//kollar om man kan flytta en bricka
 		// returnar -1 om man kan gå från baren, 1 om man kan flytta bland trianglarna, 2 om man kan gå i mål, -1 om man inte kan flytta något.
@@ -164,22 +221,77 @@ namespace Backgammon
 			return 0;
 		}
 
-		//Funktion som tar reda på alla möjliga moves för alla olika trianglar.
-		// inte gjord
-		public List<int>[] allAvailableMoves(triangel[] spelplan, int[] dices, player spelare)
+		//Funktion som kollar om det går att gå i mål
+		//True om det går, annars false
+		public bool AvailableMoveGoal(triangel[] spelplan, int first, int[] dices, player spelare)
 		{
-			List<int>[] moves = new List<int>[26];
-
-
-
-			return moves;
+			if (legitMoveGoal(spelplan, first, dices, spelare) != -1 && canMove(spelplan, spelare, dices) == 2) return true;
+			return false;
 		}
+
+		//Funktion som tar reda på alla möjliga moves för en triangel.
+		public void AvailableMoves(List<int>[] moves, int listindex, triangel[] spelplan, int[] dices, player spelare, int valdtriangel)
+		{
+			if (valdtriangel == 25) valdtriangel = 0;
+			if (valdtriangel == 26) valdtriangel = 25;
+			int index = -1;
+			int[] nydice = new int[4];
+			triangel[] nyspelplan = new triangel[26];
+
+			if (spelare == player.one)
+			{
+				for (int i = 0; i < dices.Length; i++)
+				{
+					if (dices[i] > 0)
+					{
+						if (valdtriangel == 0) index = legitMove(spelplan, -1, valdtriangel + dices[i], dices, spelare);
+						else if (valdtriangel+dices[i] < 25) index = legitMove(spelplan, valdtriangel, valdtriangel + dices[i], dices, spelare);
+						if (index != -1)
+						{
+							if (spelplan[6].antal == 0 || valdtriangel == 0)
+							{
+								if (!moves[listindex].Contains(valdtriangel + dices[index])) moves[listindex].Add(valdtriangel + dices[index]);
+								Array.Copy(dices, nydice, 4);
+								Array.Copy(spelplan, nyspelplan, 26);
+								move(nyspelplan, valdtriangel, valdtriangel + dices[index], nydice, spelare);
+								AvailableMoves(moves, 1, nyspelplan, nydice, spelare, valdtriangel + dices[index]);
+							}
+						}
+					}
+				}
+			}
+			else
+			{
+				for (int i = 0; i < dices.Length; i++)
+				{
+					if (dices[i] > 0)
+					{
+						if (valdtriangel == 25) index = legitMove(spelplan, -1, valdtriangel - dices[i], dices, spelare);
+						else if (valdtriangel-dices[i] > 0) index = legitMove(spelplan, valdtriangel, valdtriangel - dices[i], dices, spelare);
+						if (index != -1)
+						{
+							if (spelplan[19].antal == 0 || valdtriangel == 25)
+							{
+								if (!moves[listindex].Contains(valdtriangel - dices[index])) moves[listindex].Add(valdtriangel - dices[index]);
+								Array.Copy(dices, nydice, 4);
+								Array.Copy(spelplan, nyspelplan, 26);
+								move(nyspelplan, valdtriangel, valdtriangel - dices[index], nydice, spelare);
+								AvailableMoves(moves, 1, nyspelplan, nydice, spelare, valdtriangel - dices[index]);
+							}
+						}
+					}
+				}
+			}
+		}
+
+
 
 		// Flyttar en bricka.
 		// returnar true om det gick, annars false.
 		public bool move(triangel[] spelplan, int first, int second, int[] dices,player spelare)
 		{
-			if(first == 25 || first == 26) first = -1;
+			if(first > 26 || second > 24 || second < 1) return false;
+			if(first == 25 || first == 26 || first == 0) first = -1;
 			int index = legitMove(spelplan,first,second, dices, spelare);
 			if(index != -1)
 			{
@@ -212,6 +324,7 @@ namespace Backgammon
 		// returnar true om det gick, annars false.
 		public bool moveGoal(triangel[] spelplan, int first,int[] dices,player spelare)
 		{
+			if(first < 1 || first > 24) return false;
 			int index = legitMoveGoal(spelplan,first,dices,spelare);
 			if(index != -1)
 				{
@@ -333,7 +446,7 @@ namespace Backgammon
 			if (spelplanPos > 18 && spelplanPos <= 24) return spelplanPos+1;
 			if(spelplanPos == 25) return 6;
 			if(spelplanPos == 26) return 19;
-			else return spelplanPos;
+			else return 19;
 		}
 
 
@@ -343,9 +456,8 @@ namespace Backgammon
 			bool ok = true;
 			BackgammonModel test = new BackgammonModel();
 
-
-			// Test för Triangel Struct
-			//
+			// Test för Triangel
+			
 			triangel [] test1 = new triangel [4];
 			test1[0].antal = 3;
 			test1[0].color = player.two;
@@ -359,11 +471,10 @@ namespace Backgammon
 
 			ok = ok && (int)player.two == 1;
 			ok = ok && (int)player.one == 0;
-
+			
 			System.Diagnostics.Debug.WriteLine("Triangel " + ok);
 
 			// Test för LetsRollTheDice()
-			//
 			for (int i = 0; i < 100 && ok; i++)
 			{
 				int[] dices = test.letsRollTheDice();
@@ -373,7 +484,6 @@ namespace Backgammon
 			System.Diagnostics.Debug.WriteLine("LetsRollTheDice " + ok);
 
 			// Test för newGame()
-			//
 			triangel[] testspelplan = new triangel[5];
 
 			for(int i = 0; i<5;i++) testspelplan[i].antal = 1;
@@ -382,23 +492,18 @@ namespace Backgammon
 
 			for(int i = 0; i<5;i++) ok = ok && testspelplan[i].antal != 1;
 			ok = ok && testspelplan.Length==26;
-
 			System.Diagnostics.Debug.WriteLine("newGame " + ok);
 
 			// Test för correctPos()
-			//
-			ok = ok && test.correctPos(1) == 0;
+						ok = ok && test.correctPos(1) == 0;
 			ok = ok && test.correctPos(6) == 5;
 			ok = ok && test.correctPos(7) == 7;
 			ok = ok && test.correctPos(18) == 18;
 			ok = ok && test.correctPos(19) == 20;
 			ok = ok && test.correctPos(24) == 25;
-
 			System.Diagnostics.Debug.WriteLine("correctPos " + ok);
 			
-
             //Test för legitMove()
-			//
             int[] dices1 = { 2, 1, 0, 0 };
 			testspelplan = test.newGame();
 
@@ -508,12 +613,10 @@ namespace Backgammon
 			}
 
 
-
             System.Diagnostics.Debug.WriteLine("legitMove " + ok);
 
             //Test för legitMoveGoal()
-			
-			testspelplan = new triangel[26];
+						testspelplan = new triangel[26];
 			testspelplan[25].antal = 1;
 			testspelplan[25].color = player.one;
 			testspelplan[0].antal = 1;
@@ -524,12 +627,9 @@ namespace Backgammon
 			ok = ok && test.legitMoveGoal(testspelplan,24,dices1,player.one) == 3;
 			ok = ok && test.legitMoveGoal(testspelplan,1,dices1,player.two) == 3;
 
-
             System.Diagnostics.Debug.WriteLine("legitMoveGoal " + ok);
 
-
             //Test för moveGoal()
-
 			testspelplan = new triangel[26];
 			testspelplan[25].antal = 1;
 			testspelplan[25].color = player.one;
@@ -583,11 +683,9 @@ namespace Backgammon
             //spela från bar
             testspelplan[6].antal = 1;
             ok = ok && test.move(testspelplan, -1, 21, dices1, player.one) == false;
-
             System.Diagnostics.Debug.WriteLine("move " + ok);
 
             //Test för canMove()
-            //
             testspelplan = test.newGame();
 
             //spelare Black
@@ -602,8 +700,124 @@ namespace Backgammon
             testspelplan[6].antal = 1;
             for (int i = 0; i < 4; i++) dices1[i] = i + 1;
             ok = ok && test.canMove(testspelplan, player.two, dices1) == -1;
-
             System.Diagnostics.Debug.WriteLine("canMove " + ok);
+
+			//Test AvailableMoveGoal()
+			//
+            testspelplan = new triangel[26];
+            testspelplan[2].antal = 1;
+            testspelplan[2].color = player.two;
+            testspelplan[3].antal = 2;
+            testspelplan[3].color = player.two;
+            testspelplan[4].antal = 2;
+            testspelplan[4].color = player.two;
+            testspelplan[5].antal = 2;
+            testspelplan[5].color = player.two;
+            testspelplan[6].antal = 5;
+            testspelplan[6].color = player.one;
+            testspelplan[8].antal = 3;
+            testspelplan[8].color = player.two;
+            testspelplan[12].antal = 5;
+            testspelplan[12].color = player.one;
+            dices1[0] = 2;
+            dices1[1] = 1;
+
+            triangel[] testspelplan1 = new triangel[26];
+			testspelplan1[0].antal = 5;
+            testspelplan1[0].color = player.two;
+            testspelplan1[1].antal = 5;
+            testspelplan1[1].color = player.two;
+            testspelplan1[2].antal = 4;
+            testspelplan1[2].color = player.two;
+			testspelplan1[3].antal = 1;
+			testspelplan1[3].color = player.two;
+            testspelplan1[22].antal = 2;
+			testspelplan1[22].color = player.one;
+            testspelplan1[23].antal = 5;
+			testspelplan1[23].color = player.one;
+            testspelplan1[24].antal = 3;
+			testspelplan1[24].color = player.one;
+            testspelplan1[25].antal = 5;
+			testspelplan1[25].color = player.one;
+
+            //Spelare One
+            ok = ok && test.AvailableMoveGoal(testspelplan, 3, dices1, player.one) == false;
+            ok = ok && test.AvailableMoveGoal(testspelplan, 8, dices1, player.one) == false;
+           
+			ok = ok && test.AvailableMoveGoal(testspelplan1, 25, dices1, player.one) == false;
+            ok = ok && test.AvailableMoveGoal(testspelplan1, 24, dices1, player.one) == true;
+            ok = ok && test.AvailableMoveGoal(testspelplan1, 23, dices1, player.one) == true;
+            dices1[0] = 4;
+            dices1[1] = 4;
+            dices1[2] = 4;
+            dices1[3] = 4;
+            ok = ok && test.AvailableMoveGoal(testspelplan1, 25, dices1, player.one) == false;
+            ok = ok && test.AvailableMoveGoal(testspelplan1, 24, dices1, player.one) == false;
+            ok = ok && test.AvailableMoveGoal(testspelplan1, 23, dices1, player.one) == false;
+            ok = ok && test.AvailableMoveGoal(testspelplan1, 22, dices1, player.one) == false;
+			testspelplan1[21].antal = 0;
+            testspelplan1[22].antal = 0;
+            ok = ok && test.AvailableMoveGoal(testspelplan1, 22, dices1, player.one) == true;
+            ok = ok && test.AvailableMoveGoal(testspelplan1, 23, dices1, player.one) == false;
+            ok = ok && test.AvailableMoveGoal(testspelplan1, 24, dices1, player.one) == false;
+            ok = ok && test.AvailableMoveGoal(testspelplan1, 25, dices1, player.one) == false;
+			testspelplan1[23].antal = 0;
+			ok = ok && test.AvailableMoveGoal(testspelplan1, 22, dices1, player.one) == false;
+			ok = ok && test.AvailableMoveGoal(testspelplan1, 23, dices1, player.one) == true;
+			ok = ok && test.AvailableMoveGoal(testspelplan1, 24, dices1, player.one) == false;
+			ok = ok && test.AvailableMoveGoal(testspelplan1, 25, dices1, player.one) == false;
+            testspelplan1[24].antal = 0;
+			ok = ok && test.AvailableMoveGoal(testspelplan1, 22, dices1, player.one) == false;
+			ok = ok && test.AvailableMoveGoal(testspelplan1, 23, dices1, player.one) == false;
+			ok = ok && test.AvailableMoveGoal(testspelplan1, 24, dices1, player.one) == true;
+			ok = ok && test.AvailableMoveGoal(testspelplan1, 25, dices1, player.one) == false;
+			testspelplan1[25].antal = 0;
+			ok = ok && test.AvailableMoveGoal(testspelplan1, 22, dices1, player.one) == false;
+			ok = ok && test.AvailableMoveGoal(testspelplan1, 23, dices1, player.one) == false;
+			ok = ok && test.AvailableMoveGoal(testspelplan1, 24, dices1, player.one) == false;
+			ok = ok && test.AvailableMoveGoal(testspelplan1, 25, dices1, player.one) == false;
+
+            //Spelare Two
+			dices1[0] = 2;
+			dices1[1] = 1;
+			ok = ok && test.AvailableMoveGoal(testspelplan, 12, dices1, player.two) == false;
+			ok = ok && test.AvailableMoveGoal(testspelplan, 6, dices1, player.two) == false;
+
+			ok = ok && test.AvailableMoveGoal(testspelplan1, 0, dices1, player.two) == false;
+			ok = ok && test.AvailableMoveGoal(testspelplan1, 1, dices1, player.two) == true;
+			ok = ok && test.AvailableMoveGoal(testspelplan1, 2, dices1, player.two) == true;
+			dices1[0] = 4;
+			dices1[1] = 4;
+			dices1[2] = 4;
+			dices1[3] = 4;
+			ok = ok && test.AvailableMoveGoal(testspelplan1, 0, dices1, player.two) == false;
+			ok = ok && test.AvailableMoveGoal(testspelplan1, 1, dices1, player.two) == false;
+			ok = ok && test.AvailableMoveGoal(testspelplan1, 2, dices1, player.two) == false;
+			ok = ok && test.AvailableMoveGoal(testspelplan1, 3, dices1, player.two) == false;
+			testspelplan1[4].antal = 0;
+			testspelplan1[3].antal = 0;
+			ok = ok && test.AvailableMoveGoal(testspelplan1, 3, dices1, player.two) == true;
+			ok = ok && test.AvailableMoveGoal(testspelplan1, 2, dices1, player.two) == false;
+			ok = ok && test.AvailableMoveGoal(testspelplan1, 1, dices1, player.two) == false;
+			ok = ok && test.AvailableMoveGoal(testspelplan1, 0, dices1, player.two) == false;
+			testspelplan1[2].antal = 0;
+			ok = ok && test.AvailableMoveGoal(testspelplan1, 3, dices1, player.two) == false;
+			ok = ok && test.AvailableMoveGoal(testspelplan1, 2, dices1, player.two) == true;
+			ok = ok && test.AvailableMoveGoal(testspelplan1, 1, dices1, player.two) == false;
+			ok = ok && test.AvailableMoveGoal(testspelplan1, 0, dices1, player.two) == false;
+			testspelplan1[1].antal = 0;
+			ok = ok && test.AvailableMoveGoal(testspelplan1, 3, dices1, player.two) == false;
+			ok = ok && test.AvailableMoveGoal(testspelplan1, 2, dices1, player.two) == false;
+			ok = ok && test.AvailableMoveGoal(testspelplan1, 1, dices1, player.two) == true;
+			ok = ok && test.AvailableMoveGoal(testspelplan1, 0, dices1, player.two) == false;
+			testspelplan1[0].antal = 0;
+			ok = ok && test.AvailableMoveGoal(testspelplan1, 3, dices1, player.two) == false;
+			ok = ok && test.AvailableMoveGoal(testspelplan1, 2, dices1, player.two) == false;
+			ok = ok && test.AvailableMoveGoal(testspelplan1, 1, dices1, player.two) == false;
+			ok = ok && test.AvailableMoveGoal(testspelplan1, 0, dices1, player.two) == false;
+
+			System.Diagnostics.Debug.WriteLine("AvailableMoveGoal " + ok);
+
             return ok;
 		}
 

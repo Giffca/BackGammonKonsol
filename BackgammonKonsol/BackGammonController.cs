@@ -41,20 +41,21 @@ namespace Backgammon
 					for(int i=0; i<dices.Length;i++) if(dices[i] != 0) Console.Write(dices[i] + " ");
 					Console.WriteLine();
 					Console.WriteLine();
-					int first;
-					int second;
+					int first = 0;
+					int second = -1;
 						if (status == -1)
 							{
 							first = -1;
 							Console.Write("Spela in utslagen bricka till: ");
-							second = Convert.ToInt32(Console.ReadLine());
+							while(!(second > 0))try {second = Convert.ToInt32(Console.ReadLine());} catch{}
 							}
 						else
 							{
 							Console.Write("Från: ");
-							first = Convert.ToInt32(Console.ReadLine());
+							while(!(first > 0))try {first = Convert.ToInt32(Console.ReadLine());} catch{}
+							
 							Console.Write("Till: ");
-							second = Convert.ToInt32(Console.ReadLine());
+							while(!(second > -1))try {second = Convert.ToInt32(Console.ReadLine());} catch{}
 							}
 
 
